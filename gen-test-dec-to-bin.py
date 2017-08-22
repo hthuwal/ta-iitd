@@ -10,7 +10,7 @@ NUM_CASES = 20
 TEST_CASE_FORMAT = """
 case = Test %d
 input = %d
-output = %s
+output = "%s"
 """
 
 ####################################
