@@ -41,8 +41,8 @@ sieve()  # sets nonprime in isPrime as 0
 for i in range(1, 1 + NUM_CASES):
 
     num = randint(*RANGE_OF_NUMBERS)
-    factors, primeFactors = get_factors(num)
+    factors, primeFactorization = get_factors(num)
     out = ", ".join(map(str, factors)) + "\n"
-    out += ", ".join(map(str, primeFactors))
+    out += ", ".join(map(str, primeFactorization))
     inp = str(num)
     print(TEST_CASE_FORMAT % (i, inp, out))
