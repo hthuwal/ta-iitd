@@ -26,7 +26,14 @@ def sieve():
 def get_factors(n):
     factors = [i for i in range(1, n + 1) if n % i == 0]
     primeFactors = [factor for factor in factors if isPrime[factor]]
-    return factors, primeFactors
+    primeFactorization = []
+    for prime in primeFactors:
+        x = n
+        while x % prime == 0:
+            primeFactorization.append(prime)
+            x = x / prime
+
+    return factors, primeFactorization
 
 
 sieve()  # sets nonprime in isPrime as 0
