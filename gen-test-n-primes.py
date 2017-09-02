@@ -1,7 +1,7 @@
 from random import randint
 from itertools import count, islice
 
-NUM_RANGE = (5, 30)
+NUM_RANGE = (-1000, 100000)
 
 ####################################
 
@@ -9,11 +9,12 @@ NUM_CASES = 20
 
 TEST_CASE_FORMAT = """
 case = Test %d
-input = %d
+input = %s
 output = "%s"
 """
 
 ####################################
+
 
 # ideone.com/aVndFM
 def postponed_sieve():                   # postponed sieve, by Will Ness
@@ -43,11 +44,19 @@ def postponed_sieve():                   # postponed sieve, by Will Ness
 
 for i in range(1, 1+NUM_CASES):
 
-    inp = randint(*NUM_RANGE)
+    inp = ''
+    out = ''
 
-    primes = list(islice(postponed_sieve(), inp))
+    num = randint(*NUM_RANGE)
+    while num < 0:
+        inp += "%d\n" % (num)
+        out += "Input number is negative, please enter again\n"
+        num = randint(*NUM_RANGE)
+    inp += "%d\n" % (num)
+
+    primes = list(islice(postponed_sieve(), num))
     primes = ", ".join(map(str, primes))
 
-    out = "The first %d prime numbers are: " % inp + primes
+    out += "The first %d prime numbers are: " % num + primes
 
     print(TEST_CASE_FORMAT % (i, inp, out))
