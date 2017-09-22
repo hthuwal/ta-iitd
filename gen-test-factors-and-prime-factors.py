@@ -4,7 +4,7 @@ from math import sqrt
 
 NUM_CASES = 100
 MAX_NUMBER = 1000000
-RANGE_OF_NUMBERS = (2, MAX_NUMBER)
+NUM_RANGE = (-1000000, MAX_NUMBER)
 
 TEST_CASE_FORMAT = """
 case = Test %d
@@ -40,9 +40,15 @@ sieve()  # sets nonprime in isPrime as 0
 
 for i in range(1, 1 + NUM_CASES):
 
-    num = randint(*RANGE_OF_NUMBERS)
+    num = randint(*NUM_RANGE)
+    inp = ''
+    out = ''
+    while num < 1:
+        inp += "%d\n" % (num)
+        out += "Input number not in range, please enter again\n"
+        num = randint(*NUM_RANGE)
+    inp += "%d" % (num)
     factors, primeFactorization = get_factors(num)
-    out = ", ".join(map(str, factors)) + "\n"
+    out += ", ".join(map(str, factors)) + "\n"
     out += ", ".join(map(str, primeFactorization))
-    inp = str(num)
     print(TEST_CASE_FORMAT % (i, inp, out))

@@ -52,7 +52,7 @@ for i in range(1, 1+NUM_CASES):
         inp += "%d\n" % (num)
         out += "Input number is negative, please enter again\n"
         num = randint(*NUM_RANGE)
-    inp += "%d\n" % (num)
+    inp += "%d" % (num)
 
     primes = list(islice(postponed_sieve(), num))
     primes = ", ".join(map(str, primes))
