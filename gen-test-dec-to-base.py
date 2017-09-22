@@ -40,7 +40,7 @@ for i in range(1, 1 + NUM_CASES):
     num = randint(*NUM_RANGE)
     while num < 1:
         inp += "%d\n" % (num)
-        out += "Input number not in range, ple  ase enter again\n"
+        out += "Input number not in range, please enter again\n"
         num = randint(*NUM_RANGE)
     inp += "%d\n" % (num)
 

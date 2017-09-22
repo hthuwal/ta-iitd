@@ -1,11 +1,11 @@
 from random import randint
 from itertools import count, islice
 
-NUM_RANGE = (-1000, 100000)
+NUM_RANGE = (-2000, 5000)
 
 ####################################
 
-NUM_CASES = 20
+NUM_CASES = 50
 
 TEST_CASE_FORMAT = """
 case = Test %d
@@ -48,7 +48,7 @@ for i in range(1, 1+NUM_CASES):
     out = ''
 
     num = randint(*NUM_RANGE)
-    while num < 0:
+    while num <= 0:
         inp += "%d\n" % (num)
         out += "Input number is negative, please enter again\n"
         num = randint(*NUM_RANGE)
