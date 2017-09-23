@@ -1,14 +1,13 @@
 
 from random import randint
 
-NUM_CASES = 2
+NUM_CASES = 100
 
-RANGE_OF_SIZES = (5, 999)
-RANGE_OF_NUMBERS = (-9000, 9000)
+RANGE_OF_SIZES = (5, 99)
+RANGE_OF_NUMBERS = (-999, 999)
 
 TEST_CASE_FORMAT = """
 case = Test %d
-grade reduction = 100%%
 input = %s
 output = %s
 """
