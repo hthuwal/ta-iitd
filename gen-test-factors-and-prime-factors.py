@@ -1,6 +1,4 @@
 from random import randint
-from calendar import isleap
-from math import sqrt
 
 NUM_CASES = 100
 MAX_NUMBER = 1000000
@@ -42,7 +40,7 @@ for i in range(1, 1 + NUM_CASES):
 
     num = randint(*RANGE_OF_NUMBERS)
     factors, primeFactorization = get_factors(num)
-    out = ", ".join(map(str, factors)) + "\n"
-    out += ", ".join(map(str, primeFactorization))
+    out = " ".join(map(str, factors)) + "\n"
+    out += " ".join(map(str, primeFactorization))
     inp = str(num)
     print(TEST_CASE_FORMAT % (i, inp, out))
