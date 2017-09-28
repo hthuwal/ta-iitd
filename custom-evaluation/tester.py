@@ -65,6 +65,9 @@ sieve()  # sets nonprime in isPrime as 0
 
 total_grade = 0
 grade_per_case = 100 / NUM_CASES
+
+PRINTED_1, PRINTED_2 = False, False
+
 for i in range(1, 1 + NUM_CASES):
 
     # This will change too
@@ -87,14 +90,16 @@ for i in range(1, 1 + NUM_CASES):
         total_grade += grade_per_case / 4.0
     elif i < 10:
         print("Incorrect factors printed for input number: %d\n" % num)
-    else:
+    elif not PRINTED_1:
+        PRINTED_1 = True
         print("Incorrect factors printed for some input\n")
 
     if lines[1] == prime_factors:
         total_grade += 3 * (grade_per_case / 4.0)
     elif i < 10:
         print("Incorrect prime factors printed for input number: %d\n" % num)
-    else:
+    elif not PRINTED_2:
+        PRINTED_2 = True
         print("Incorrect prime factors printed for some input\n")
 
 print_grade(int(total_grade))
