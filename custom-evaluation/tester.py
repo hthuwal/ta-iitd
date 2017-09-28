@@ -85,12 +85,16 @@ for i in range(1, 1 + NUM_CASES):
 
     if lines[0] == factors:
         total_grade += grade_per_case / 4.0
+    elif i < 10:
+        print("Incorrect factors printed for input number: %d\n" % num)
     else:
-        print("Incorrect factors printed for input number: %d" % num)
+        print("Incorrect factors printed for some input\n")
 
     if lines[1] == prime_factors:
         total_grade += 3 * (grade_per_case / 4.0)
+    elif i < 10:
+        print("Incorrect prime factors printed for input number: %d\n" % num)
     else:
-        print("Incorrect prime factors printed for input number: %d" % num)
+        print("Incorrect prime factors printed for some input\n")
 
 print_grade(int(total_grade))
