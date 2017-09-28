@@ -57,6 +57,11 @@ sieve()  # sets nonprime in isPrime as 0
 # Check for printf etc. based cheating
 ###############################################
 
+with open(SOURCE_FILE_NAME) as f:
+    src = f.read()
+    if src.count("printf") > 10:
+        print_comment("This has >10 printfs")
+
 ###############################################
 # Test the object file
 ###############################################
