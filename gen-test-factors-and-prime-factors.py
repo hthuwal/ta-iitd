@@ -1,13 +1,13 @@
 from random import randint
 
-NUM_CASES = 100
-MAX_NUMBER = 1000000
+NUM_CASES = 50
+MAX_NUMBER = 10000
 RANGE_OF_NUMBERS = (2, MAX_NUMBER)
 
 TEST_CASE_FORMAT = """
 case = Test %d
 input = %s
-output = \"%s\"
+output = %s
 """
 
 isPrime = [i for i in range(0, MAX_NUMBER)]

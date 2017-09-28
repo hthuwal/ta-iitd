@@ -1,10 +1,10 @@
 
 from random import randint
 
-NUM_CASES = 100
+NUM_CASES = 30
 
-RANGE_OF_SIZES = (5, 99)
-RANGE_OF_NUMBERS = (-999, 999)
+RANGE_OF_SIZES = (5, 29)
+RANGE_OF_NUMBERS = (-99, 99)
 
 TEST_CASE_FORMAT = """
 case = Test %d
