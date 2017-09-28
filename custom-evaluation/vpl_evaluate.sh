@@ -17,7 +17,7 @@ cat vpl_compilation_error.txt
 if [ -f vpl_execution ] ; then
 
     # Rename it because vpl_execution will be our tester!
-    mv vpl_execution vpl_test
+    mv vpl_execution to_test
 
     # v3?
     check_program python
