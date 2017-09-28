@@ -1,7 +1,7 @@
 import random
 
 # Used to run the object file
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, TimeoutExpired
 
 NUM_CASES = 50
 
@@ -87,10 +87,17 @@ for i in range(1, 1 + NUM_CASES):
 
     # This will stay the same
     process = Popen([OBJECT_FILE_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = process.communicate(input=inp)
+
+    try:
+        stdout, stderr = process.communicate(input=inp.encode(), timeout=0.5)
+        stdout = stdout.decode()
+        stderr = stderr.decode()
+    except TimeoutExpired:
+        print("Program timed out for input number: %d\n" % num)
+        continue
 
     # Might need to be changed per question
-    lines = map(lambda s: s.strip(), stdout.split("\n"))
+    lines = list(map(lambda s: s.strip(), stdout.split("\n")))
     lines += ["", ""]
 
     if num_list(lines[0]) == factors:

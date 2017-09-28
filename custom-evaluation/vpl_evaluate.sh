@@ -20,10 +20,10 @@ if [ -f vpl_execution ] ; then
     mv vpl_execution to_test
 
     # v3?
-    check_program python
+    check_program python3.4
 
     echo "#! /bin/bash" > vpl_execution
-    echo "python tester.py">> vpl_execution
+    echo "python3.4 tester.py">> vpl_execution
 
 # Compilation failed
 else
