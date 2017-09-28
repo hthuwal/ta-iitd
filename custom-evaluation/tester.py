@@ -6,7 +6,7 @@ from subprocess import Popen, PIPE
 NUM_CASES = 50
 
 SOURCE_FILE_NAME = "factors.c"
-OBJECT_FILE_NAME = "./to_test_58"
+OBJECT_FILE_NAME = "./to_test"
 
 random.seed(9001003)
 
@@ -71,8 +71,6 @@ for i in range(1, 1 + NUM_CASES):
     num = random.randint(*RANGE_OF_NUMBERS)
     inp = str(num)
 
-    print(inp)
-
     factors, prime_factors = get_factors(num)
     factors = " ".join(map(str, factors))
     prime_factors = " ".join(map(str, prime_factors))
@@ -87,8 +85,12 @@ for i in range(1, 1 + NUM_CASES):
 
     if lines[0] == factors:
         total_grade += grade_per_case / 4.0
+    else:
+        print("Incorrect factors printed for input number: %d" % num)
 
     if lines[1] == prime_factors:
         total_grade += 3 * (grade_per_case / 4.0)
+    else:
+        print("Incorrect prime factors printed for input number: %d" % num)
 
 print_grade(int(total_grade))
