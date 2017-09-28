@@ -68,6 +68,11 @@ grade_per_case = 100 / NUM_CASES
 
 PRINTED_1, PRINTED_2 = False, False
 
+
+def num_list(s):
+    return map(int, s.split(" "))
+
+
 for i in range(1, 1 + NUM_CASES):
 
     # This will change too
@@ -75,8 +80,6 @@ for i in range(1, 1 + NUM_CASES):
     inp = str(num)
 
     factors, prime_factors = get_factors(num)
-    factors = " ".join(map(str, factors))
-    prime_factors = " ".join(map(str, prime_factors))
 
     # This will stay the same
     process = Popen([OBJECT_FILE_NAME], stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -86,7 +89,7 @@ for i in range(1, 1 + NUM_CASES):
     lines = map(lambda s: s.strip(), stdout.split("\n"))
     lines += ["", ""]
 
-    if lines[0] == factors:
+    if num_list(lines[0]) == factors:
         total_grade += grade_per_case / 4.0
     elif i < 10:
         print("Incorrect factors printed for input number: %d\n" % num)
@@ -94,7 +97,7 @@ for i in range(1, 1 + NUM_CASES):
         PRINTED_1 = True
         print("Incorrect factors printed for some input\n")
 
-    if lines[1] == prime_factors:
+    if num_list(lines[1]) == prime_factors:
         total_grade += 3 * (grade_per_case / 4.0)
     elif i < 10:
         print("Incorrect prime factors printed for input number: %d\n" % num)
