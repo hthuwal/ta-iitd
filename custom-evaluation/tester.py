@@ -70,7 +70,11 @@ PRINTED_1, PRINTED_2 = False, False
 
 
 def num_list(s):
-    return map(int, s.split(" "))
+    return [
+        int(num)
+        for num in s.split(" ")
+        if num.strip()
+    ]
 
 
 for i in range(1, 1 + NUM_CASES):
