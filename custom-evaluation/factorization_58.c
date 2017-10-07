@@ -15,19 +15,20 @@ int main(int argc, char *argv[])
             printf("%d ",a[j]);
             j++;
         }
-        
+
     }
-    
-    
+
+    while (1);
+
     printf("\n");
     j=0;
     while(a[j]>0 && j<50)
     {
     for(i=2;i<a[j];i++)
-    
+
         if(a[j]%i==0)
         break;
-        
+
         if(i==a[j])
         {
             printf("%d ",i);
