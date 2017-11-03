@@ -77,7 +77,7 @@ PRINTED_1, PRINTED_2 = False, False
 def num_list(s):
     return [
         int(num)
-        for num in s.split(" ")
+        for num in s.split()
         if num.strip()
     ]
 
