@@ -95,8 +95,8 @@ for i in range(1, 1 + NUM_CASES):
 
     try:
         stdout, stderr = process.communicate(input=inp.encode(), timeout=0.5)
-        stdout = stdout.decode()
-        stderr = stderr.decode()
+        stdout = stdout.decode().strip()
+        stderr = stderr.decode().strip()
     except TimeoutExpired:
         print("Program timed out for input number: %d\n" % num)
         continue
