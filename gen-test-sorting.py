@@ -1,7 +1,7 @@
 from random import randint
 
 stud_records = []
-with open("input.txt") as f:
+with open("input_uniq_dob_name.txt") as f:
     stud_records = f.readlines()[1:]
     stud_records = list(map(lambda x: x.strip(), stud_records))
 
@@ -39,8 +39,10 @@ for i in range(1, 1 + NUM_CASES):
 
     ans = sorted(stud_records[left:right], key=dob)
     out += '\n'.join(ans)
+
     inp = inp.replace('\t', ' ')
     out = out.replace('\t', ' ')
+
     print(TEST_CASE_FORMAT % (i, inp, out))
 
     left = randint(0, len(stud_records))
