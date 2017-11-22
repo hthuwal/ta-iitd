@@ -1,9 +1,17 @@
 from random import randint
 
+
+def weight_to_two_decimal(record):
+    record = record.split()
+    record[3] = "%0.2f" % (round(float(record[3]), 2))
+    record = " ".join(record)
+    return record
+
 stud_records = []
 with open("input_uniq_dob_name.txt") as f:
     stud_records = f.readlines()[1:]
     stud_records = list(map(lambda x: x.strip(), stud_records))
+    stud_records = list(map(weight_to_two_decimal, stud_records))
 
 BASE_RANGE = (-10, 20)
 
