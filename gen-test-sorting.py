@@ -22,14 +22,16 @@ NUM_CASES = 20
 TEST_CASE_FORMAT = """
 case = Test %d
 input = %s
-output = %s
+output = /%s/m
 """
 
 ####################################
 
+def proj1(x):
+    return x.split()[0].strip()+".*"
 
 def dob(record):
-    record = record.split('\t')
+    record = record.split()
     date = record[1]
     d, m, y = date[0:2], date[2:4], date[4:]
     return y+m+d
@@ -44,8 +46,9 @@ for i in range(1, 1 + NUM_CASES):
     out = ''
     inp += str(len_input) + '\n'
     inp += '\n'.join(stud_records[left:right])
-
+    # print(stud_records[1])
     ans = sorted(stud_records[left:right], key=dob)
+    ans = list(map(proj1, ans))
     out += '\n'.join(ans)
 
     inp = inp.replace('\t', ' ')
@@ -54,7 +57,7 @@ for i in range(1, 1 + NUM_CASES):
     print(TEST_CASE_FORMAT % (i, inp, out))
 
     left = randint(0, len(stud_records))
-    right = randint(left, len(stud_records))
+    right = randint(left+3, len(stud_records))
     len_input = right - left
 
     # assert(len_input, len(stud_records[left:right]))
