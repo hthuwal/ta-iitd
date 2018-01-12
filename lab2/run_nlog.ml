@@ -48,6 +48,7 @@ let grade = grade +. test_nlog (-93.0)  3;;
 let grade = grade +. test_nlog (17.0)  4;;
 let grade = grade +. test_nlog (193.0)  5;;
 
+Printf.printf "Score in nlog.ml: %f/25\n\n" grade;;
 
 let file = "result.txt";;
 let () =

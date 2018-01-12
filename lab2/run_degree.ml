@@ -37,7 +37,7 @@ let test_check_degree x t =
 	else (print_error (string_of_float student) (string_of_float ta); 0.0);;
 
 
-print_string "Testing nlog.ml file...\n\n";;
+print_string "Testing degrees_to_radians.ml file...\n\n";;
 
 print_string "Testing function: check_degrees_to_radians...\n";;
 let grade = grade +. test_check_degree 388.0 1;;
@@ -54,6 +54,7 @@ let grade = grade +. test_degree (-45.0)  3;;
 let grade = grade +. test_degree 378.0  4;;
 let grade = grade +. test_degree (-250.0)  5;;
 
+Printf.printf "Score in degrees_to_radians.ml: %f/25\n\n" grade;;
 
 let file = "result.txt";;
 let () =

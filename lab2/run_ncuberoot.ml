@@ -34,7 +34,7 @@ let test_check_cube x y z t =
 	else (print_error (string_of_bool student) (string_of_bool ta); 0.0);;
 
 
-print_string "Testing poly.ml file...\n\n";;
+print_string "Testing mcuberoot.ml file...\n\n";;
 
 print_string "Testing function: check_mcuberoot...\n";;
 let grade = grade +. test_check_cube (-1.0) 2.0 (-3.0) 1;;
@@ -50,7 +50,7 @@ let grade = grade +. test_cube (-8.0) (-9.0) 6.0 3;;
 let grade = grade +. test_cube (-45.0) 12.0 3.0 4;;
 let grade = grade +. test_cube 64.0 5.0 93.0 5;;
 
-
+Printf.printf "Score in mcuberoot.ml: %f/25\n\n" grade;;
 
 let file = "result.txt";;
 let () =

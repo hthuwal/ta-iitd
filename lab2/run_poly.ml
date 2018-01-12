@@ -53,7 +53,7 @@ let grade = grade +. test_poly 2	8 	(-3)4;;
 let grade = grade +. test_poly 1  	(-4)6 	5;;
 
 
-
+Printf.printf "Score in poly.ml: %f/25\n\n" grade;;
 
 let file = "result.txt";;
 let () =
