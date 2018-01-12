@@ -1,5 +1,3 @@
-# Created by https://www.gitignore.io/api/python
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -203,3 +201,14 @@ dkms.conf
 /.gitignore
 
 /ta-iitd.sublime-workspace
+
+/lab2/Doc/lab2.aux
+
+/lab2/Doc/lab2.fdb_latexmk
+
+/lab2/Doc/lab2.log
+
+/lab2/Doc/lab2.fls
+
+/lab2/Doc/lab2.out
+
