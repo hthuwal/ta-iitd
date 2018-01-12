@@ -1,0 +1,69 @@
+\documentclass{article}
+\usepackage{hyperref}
+
+\title{Lab - 2}
+\date{Week of Jan. 14, 2018}
+
+\begin{document}
+
+\maketitle
+
+Questions 1-3 should be tried in the OCaml toplevel.
+\begin{enumerate}
+
+\item Set the variables x, y and z to any \emph{positive} integers of your choice and compute the following expressions:
+	\begin{enumerate}
+		\item $x^3 + 2xyz^2 − yz + 1$
+		\item Cube root of $xyz$
+		\item $ln (x + \sqrt{(x^2 + 1)})$
+		\item The sine function in OCaml takes in the angle in radians. However, we would like to supply the angle in degrees. Therefore, there is a need to convert the angle in degrees to the angle in radians. Write the expression to do so. Use the following value of $\pi$ discussed in class: $4atan(1)$ and the formula for converting degrees into radians as: 
+		$radians$ = $degrees * \frac{\pi}{180}$.
+	\end{enumerate}
+Use the following web page (the section on floating point arithmetic) for help: \url{https://caml.inria.fr/pub/docs/manual-ocaml/libref/Pervasives.html}
+
+\item Write the following functions for each of the above:
+	\begin{enumerate}
+		\item {\tt poly} (takes in 3 parameters, returns one value)
+		\item {\tt mcuberoot} (takes in 3 parameters, returns one value)
+		\item {\tt nlog} (takes in 1 parameter, returns 1 value)
+		\item {\tt degrees\_to\_radians} (takes in 1 parameter, returns 1 value)
+	\end{enumerate}
+\item We would like to ensure that the inputs to the functions above are correctly bound. Write input validation (or correction) functions for each of the above:
+	\begin{enumerate}
+		\item {\tt check\_poly}: takes in 3 parameters provided as input, returns true only if each parameter is a positive integer. If any of the parameters is negative, then it returns false.
+		\item {\tt check\_mcuberoot}: takes in 3 parameters, returns true only if xyz is positive, otherwise, returns false
+		\item {\tt check\_nlog}: takes in 1 parameter, determine for yourself when this function should return true.
+		\item {\tt check\_degrees\_to\_radians}: takes in 1 parameter, returns a value (in degrees) that is in between 0 and 360. NOTE: If the parameter is 361 degrees, then this function returns 1 degree, if the value is -1 degree, then it returns 359 degrees, etc.
+	\end{enumerate}
+\item Source files
+	\begin{enumerate}
+		\item Write function {\tt poly} and the corresponding input validation function in the file {\tt poly.ml}.
+		\item Write a main function that calls function {\tt poly} with the following values: $x = 2, y = 3, z = 4$ and prints out the value returned by the function.
+		\item Compile {\tt poly.ml} into the executable {\tt poly}
+		\item Run {\tt poly}. Ensure that the behaviour of the program is as expected.
+	\end{enumerate}
+\item Remove the main function from the {\tt poly.ml}
+	\begin{enumerate}
+		\item Load the functions in {\tt poly.ml} into the toplevel.
+		\item Test the functionality with the following sets of values:
+			$$x = -5, y = 3, z = 8$$
+			$$x = 2, y = 1.2, z = 0$$
+			$$x = 5, y = -3, z = 2$$
+		\item Think of more test cases. What errors can occur?
+	\end{enumerate}
+
+\item Repeat steps 4 and 5 for the other functions in 2). You can choose whatever file name you like.
+
+\item Prepare and submit the following files for submission:
+
+	\begin{enumerate}
+		\item {\tt poly.ml} (which implements 1a and 2a)
+		\item {\tt mcuberoot.ml} (which implements 1b and 2b)
+		\item {\tt nlog.ml} (which implements 1c and 2c)
+		\item {\tt degrees\_to\_radians.ml} (which implements 1d and 2d)
+
+	\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
