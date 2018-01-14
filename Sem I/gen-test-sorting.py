@@ -47,7 +47,7 @@ for i in range(1, 1 + NUM_CASES):
     inp += str(len_input) + '\n'
     inp += '\n'.join(stud_records[left:right])
     # print(stud_records[1])
-    ans = sorted(stud_records[left:right], key=dob)
+    ans = reversed(sorted(stud_records[left:right], key=dob))
     ans = list(map(proj1, ans))
     out += '\n'.join(ans)
 

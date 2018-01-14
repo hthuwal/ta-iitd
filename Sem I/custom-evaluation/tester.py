@@ -5,7 +5,7 @@ from subprocess import Popen, PIPE, TimeoutExpired
 
 NUM_CASES = 50
 
-SOURCE_FILE_NAME = "factors.c"
+SOURCE_FILE_NAME = "himanshu_factors.c"
 OBJECT_FILE_NAME = "./to_test"
 
 random.seed(9001003)
