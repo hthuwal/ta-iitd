@@ -202,13 +202,12 @@ dkms.conf
 
 /ta-iitd.sublime-workspace
 
-/lab2/Doc/lab2.aux
+*.aux
 
-/lab2/Doc/lab2.fdb_latexmk
+*.fdb_latexmk
 
-/lab2/Doc/lab2.log
+*.log
 
-/lab2/Doc/lab2.fls
+*.fls
 
-/lab2/Doc/lab2.out
-
+*.out
