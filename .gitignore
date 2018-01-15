@@ -198,3 +198,9 @@ dkms.conf
 *.app
 
 # End of https://www.gitignore.io/api/c++
+
+/ta-iitd.sublime-project
+
+/.gitignore
+
+/ta-iitd.sublime-workspace
