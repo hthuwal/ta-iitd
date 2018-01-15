@@ -37,7 +37,7 @@ Use the following web page (the section on floating point arithmetic) for help: 
 	\end{enumerate}
 \item Source files
 	\begin{enumerate}
-		\item Write function {\tt poly} and the corresponding input validation function in the file {\tt poly.ml}. In the poly function first call the {\tt check\_poly} (validation function) to ensure that the inputs are valid. If the inputs are valid then return the value of the polynomial else return {\tt-1.0}.
+		\item Write function {\tt poly} and the corresponding input validation function in the file {\tt poly.ml}. In the poly function first call the {\tt check\_poly} (validation function) to ensure that the inputs are valid. If the inputs are valid then return the value of the polynomial else return {\tt-1}.
 		\item Write a main function that calls function {\tt poly} with the following values: $x = 2, y = 3, z = 4$ and prints out the value returned by the function.
 		\item Compile {\tt poly.ml} into the executable {\tt poly}
 		\item Run {\tt poly}. Ensure that the behaviour of the program is as expected.
@@ -52,8 +52,12 @@ Use the following web page (the section on floating point arithmetic) for help: 
 		\item Think of more test cases. What errors can occur?
 	\end{enumerate}
 
-\item Repeat steps 4 and 5 for the other functions in 2).
-
+\item Repeat steps 4 and 5 for the other functions in 2).\\
+	  Note: 
+	  \begin{itemize}
+	  \item If the input validation fails in case of functions 2b and 2c return {\tt -1.0}.
+	  \item Function 2d should be applied on the result of the function {\tt check\_degrees\_to\_radians}.
+	  \end{itemize}
 \item Prepare and submit the following files for submission on moodle:
 
 	\begin{enumerate}
