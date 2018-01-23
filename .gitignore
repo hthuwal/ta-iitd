@@ -211,3 +211,11 @@ dkms.conf
 *.fls
 
 *.out
+
+/col100M (Sem 2)/lab_exam_1/in.txt
+
+/.gitignore
+
+/col100M (Sem 2)/lab_exam_1/out.txt
+
+/col100M (Sem 2)/lab_exam_1/out1.txt
