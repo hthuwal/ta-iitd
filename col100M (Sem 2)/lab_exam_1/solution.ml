@@ -42,3 +42,20 @@ let rec cost_helper amt a b c d k f =
 	| _ -> 0 ;;
 
 let cost amt a b c d f = cost_helper amt a b c d 1 f ;;
+
+let pagal amt a b c d f = amt, a, b, c, d, f;;
+
+let test ()=
+	let ic = Scanf.Scanning.open_in "in.txt" in
+	try
+		while true 
+		do
+			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d  %d %d %d %d\n" pagal in
+			if f = 0 then 
+				(print_int (ways amt a b c d); print_string" ";print_int (cost amt a b c d weight); print_newline())
+			else
+				(print_int (ways amt a b c d); print_string" ";print_int (cost amt a b c d weightI); print_newline())
+		done
+	with End_of_file -> Scanf.Scanning.close_in ic;; 
+
+test();;
