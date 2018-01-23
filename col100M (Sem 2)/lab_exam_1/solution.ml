@@ -6,10 +6,10 @@ let rec ways_helper amt a b c d k =
 	if amt = 0 then 1
 	else if amt < 0 then 0
 	else match k with
-	| 1 -> (ways_helper (amt-a) a b c d 1) + (ways_helper amt a b c d (k+1))
-	| 2 -> (ways_helper (amt-b) a b c d 1) + (ways_helper amt a b c d (k+1))
-	| 3 -> (ways_helper (amt-c) a b c d 1) + (ways_helper amt a b c d (k+1))
-	| 4 -> (ways_helper (amt-d) a b c d 1)
+	| 1 -> (ways_helper (amt-a) a b c d k) + (ways_helper amt a b c d (k+1))
+	| 2 -> (ways_helper (amt-b) a b c d k) + (ways_helper amt a b c d (k+1))
+	| 3 -> (ways_helper (amt-c) a b c d k) + (ways_helper amt a b c d (k+1))
+	| 4 -> (ways_helper (amt-d) a b c d k)
 	| _ -> 0 ;;
 
 let ways amt a b c d = ways_helper amt a b c d 1;;
