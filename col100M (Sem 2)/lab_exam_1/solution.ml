@@ -6,13 +6,13 @@ let rec ways_helper amt a b c d k =
 	if amt = 0 then 1
 	else if amt < 0 then 0
 	else match k with
-	| 1 -> (coins (amt-a) a b c d k) + (coins amt a b c d (k+1))
-	| 2 -> (coins (amt-b) a b c d k) + (coins amt a b c d (k+1))
-	| 3 -> (coins (amt-c) a b c d k) + (coins amt a b c d (k+1))
-	| 4 -> (coins (amt-d) a b c d k)
-	| _ -> 0
+	| 1 -> (ways_helper (amt-a) a b c d 1) + (ways_helper amt a b c d (k+1))
+	| 2 -> (ways_helper (amt-b) a b c d 1) + (ways_helper amt a b c d (k+1))
+	| 3 -> (ways_helper (amt-c) a b c d 1) + (ways_helper amt a b c d (k+1))
+	| 4 -> (ways_helper (amt-d) a b c d 1)
+	| _ -> 0 ;;
 
-let ways amt a b c d = ways_helper amt a b c d 1
+let ways amt a b c d = ways_helper amt a b c d 1;;
 
 (* Solution to part (b) -- best way to combine coins a, b, c, d to create amount amt.
 'best' is defined by a weight function which is a parameter to  the main cost function*)
