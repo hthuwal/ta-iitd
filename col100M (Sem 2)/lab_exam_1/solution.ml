@@ -20,14 +20,25 @@ let ways amt a b c d = ways_helper amt a b c d 1;;
 let weight x = 2*x;;
 let weightI x = 100 - x;;
 
-let rec cost_helper amt a b c d k f= 
+let rec cost_helper amt a b c d k f = 
 	if amt = 0 then 0
-	else if amt < 0 then 0
+	else if amt < 0 then max_int
 	else match k with
-	| 1 -> min ((f a) + (cost (amt-a) a b c d k f)) (cost amt a b c d (k+1) f)
-	| 2 -> min ((f b) + (cost (amt-b) a b c d k f)) (cost amt a b c d (k+1) f)
-	| 3 -> min ((f c) + (cost (amt-c) a b c d k f)) (cost amt a b c d (k+1) f)
-	| 4 -> (f d) + (cost (amt-d) a b c d k f)
-	| _ -> 0
+	| 1 -> let temp = (cost_helper (amt-a) a b c d k f) in 
+				if temp != max_int then min ((f a) + temp) (cost_helper amt a b c d (k+1) f)
+				else min (max_int) (cost_helper amt a b c d (k+1) f)
 
-let cost amt a b c d f = cost_helper a b c d 1 f
+	| 2 -> let temp = (cost_helper (amt-b) a b c d k f) in 
+				if temp != max_int then min ((f b) + temp) (cost_helper amt a b c d (k+1) f)
+				else min (max_int) (cost_helper amt a b c d (k+1) f)
+
+	| 3 -> let temp = (cost_helper (amt-c) a b c d k f) in 
+				if temp != max_int then min ((f c) + temp) (cost_helper amt a b c d (k+1) f)
+				else min (max_int) (cost_helper amt a b c d (k+1) f)
+
+	| 4 -> let temp = (cost_helper (amt-d) a b c d k f) in 
+				if temp != max_int then (f d) + temp
+				else max_int
+	| _ -> 0 ;;
+
+let cost amt a b c d f = cost_helper amt a b c d 1 f ;;
