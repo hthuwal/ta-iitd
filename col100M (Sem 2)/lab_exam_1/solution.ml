@@ -21,7 +21,7 @@ let ways amt a b c d =
 (* Solution to part (b) -- best way to combine coins a, b, c, d to create amount amt.
 'best' is defined by a weight function which is a parameter to  the main cost function*)
 
-let weight x = 2*x;;
+let weight x = int_of_float ((float_of_int 2)** (float_of_int x));;
 let weightI x = 100 - x;;
 
 let rec cost_helper amt a b c d k f = 
