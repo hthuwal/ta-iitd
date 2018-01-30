@@ -12,7 +12,11 @@ let rec ways_helper amt a b c d k =
 	| 4 -> (ways_helper (amt-d) a b c d k)
 	| _ -> 0 ;;
 
-let ways amt a b c d = ways_helper amt a b c d 1;;
+let ways amt a b c d = 
+	if amt <0 || a<0 || b<0 || c<0 || d<0 || a = b || a = c || a = d || b = c || b = d || c = d 
+	then -1 
+	else
+	ways_helper amt a b c d 1;;
 
 (* Solution to part (b) -- best way to combine coins a, b, c, d to create amount amt.
 'best' is defined by a weight function which is a parameter to  the main cost function*)
@@ -41,7 +45,11 @@ let rec cost_helper amt a b c d k f =
 				else max_int
 	| _ -> 0 ;;
 
-let cost amt a b c d f = cost_helper amt a b c d 1 f ;;
+let cost amt a b c d f = 
+	if amt <0 || a<0 || b<0 || c<0 || d<0 || a = b || a = c || a = d || b = c || b = d || c = d 
+	then -1 
+	else
+	cost_helper amt a b c d 1 f ;;
 
 let pagal amt a b c d f = amt, a, b, c, d, f;;
 
