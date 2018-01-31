@@ -1,4 +1,4 @@
-open CoinChanger
+open Test1
 
 let gpt_easy = 2.0/.20.0;;
 let gpt = 8.0/.80.0;;
@@ -26,7 +26,7 @@ let ways amt a b c d =
 let pagal amt a b c d f = amt, a, b, c, d, f;;
 
 let test_coinChanger amt a b c d = 
-	let student = CoinChanger.coinChanger amt a b c d in
+	let student = Test1.coinChanger amt a b c d in
 	let ta = ways amt a b c d in
 	if student == ta then (if ta == -1 then gpt_easy else gpt)
 	else 0.0;;

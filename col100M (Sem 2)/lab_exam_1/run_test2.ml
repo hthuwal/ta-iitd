@@ -1,4 +1,4 @@
-open CoinChanger_cost
+open Test2
 
 let gpt_easy = 0.1;;
 let gpt = 1.1;;
@@ -39,7 +39,7 @@ let cost amt a b c d f =
 let pagal amt a b c d f = amt, a, b, c, d, f;;
 
 let test_coinChanger_cost amt a b c d f = 
-	let student = CoinChanger_cost.coinChanger_cost amt a b c d f in
+	let student = Test2.coinChanger_cost amt a b c d f in
 	let ta = cost amt a b c d f in
 	if student == ta then (if ta == -1 then gpt_easy else gpt)
 	else 0.0;;
@@ -47,7 +47,7 @@ let test_coinChanger_cost amt a b c d f =
 let grade = ref 0.0;;
 
 let rec test() = 
-	let ic = Scanf.Scanning.open_in "vpl_evaluate.cases" in
+	let ic = Scanf.Scanning.open_in "bonus_evaluate.cases" in
 	try
 		while true 
 		do
