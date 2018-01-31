@@ -1,22 +1,7 @@
-(* Solution to part (a) -- number of ways in which coins a, b, c, d can be used to create amount amt.
-k is the parameter that controls which of a, b, c, d are available - required since they 
-cannot use lists.*)
+open CoinChanger_cost
 
-let rec ways_helper amt a b c d k = 
-	if amt = 0 then 1
-	else if amt < 0 then 0
-	else match k with
-	| 1 -> (ways_helper (amt-a) a b c d k) + (ways_helper amt a b c d (k+1))
-	| 2 -> (ways_helper (amt-b) a b c d k) + (ways_helper amt a b c d (k+1))
-	| 3 -> (ways_helper (amt-c) a b c d k) + (ways_helper amt a b c d (k+1))
-	| 4 -> (ways_helper (amt-d) a b c d k)
-	| _ -> 0 ;;
-
-let ways amt a b c d = 
-	if amt <0 || a<0 || b<0 || c<0 || d<0 || a = b || a = c || a = d || b = c || b = d || c = d 
-	then -1 
-	else
-	ways_helper amt a b c d 1;;
+let gpt_easy = 0.1;;
+let gpt = 1.1;;
 
 (* Solution to part (b) -- best way to combine coins a, b, c, d to create amount amt.
 'best' is defined by a weight function which is a parameter to  the main cost function*)
@@ -46,24 +31,35 @@ let rec cost_helper amt a b c d k f =
 	| _ -> 0 ;;
 
 let cost amt a b c d f = 
-	if amt <0 || a<0 || b<0 || c<0 || d<0 || a = b || a = c || a = d || b = c || b = d || c = d 
+	if amt <=0 || a<=0 || b<=0 || c<=0 || d<=0 || a = b || a = c || a = d || b = c || b = d || c = d 
 	then -1 
 	else
 	cost_helper amt a b c d 1 f ;;
 
 let pagal amt a b c d f = amt, a, b, c, d, f;;
 
-let test ()=
-	let ic = Scanf.Scanning.open_in "in.txt" in
+let test_coinChanger_cost amt a b c d f = 
+	let student = CoinChanger_cost.coinChanger_cost amt a b c d f in
+	let ta = cost amt a b c d f in
+	if student == ta then (if ta == -1 then gpt_easy else gpt)
+	else 0.0;;
+
+let grade = ref 0.0;;
+
+let rec test() = 
+	let ic = Scanf.Scanning.open_in "vpl_evaluate.cases" in
 	try
 		while true 
 		do
 			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d  %d %d %d %d\n" pagal in
 			if f = 0 then 
-				(print_int (ways amt a b c d); print_string" ";print_int (cost amt a b c d weight); print_newline())
+				(grade := (!grade +. (test_coinChanger_cost amt a b c d weight)))
 			else
-				(print_int (ways amt a b c d); print_string" ";print_int (cost amt a b c d weightI); print_newline())
+				(grade := (!grade +. (test_coinChanger_cost amt a b c d weightI)))
+				
 		done
 	with End_of_file -> Scanf.Scanning.close_in ic;; 
 
 test();;
+grade := !grade /. 20.0;;
+print_float (!grade);;
