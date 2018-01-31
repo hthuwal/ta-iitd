@@ -33,12 +33,13 @@ let test_coinChanger amt a b c d =
 
 let grade = ref 0.0;;
 
+let file_name = Sys.argv.(1);;
 let rec test() = 
-	let ic = Scanf.Scanning.open_in "vpl_evaluate.cases" in
+	let ic = Scanf.Scanning.open_in file_name in
 	try
 		while true 
 		do
-			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d  %d %d %d %d\n" pagal in
+			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d %d %d %d %d\n" pagal in
 			(grade := (!grade +. (test_coinChanger amt a b c d)))
 		done
 	with End_of_file -> Scanf.Scanning.close_in ic;; 
