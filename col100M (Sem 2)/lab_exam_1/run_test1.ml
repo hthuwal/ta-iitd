@@ -1,11 +1,16 @@
 open Test1
-
-let gpt_easy = 2.0/.20.0;;
-let gpt = 8.0/.80.0;;
+open Printf
+let gpt = 0.1;;
 
 (* Solution to part (a) -- number of ways in which coins a, b, c, d can be used to create amount amt.
 k is the parameter that controls which of a, b, c, d are available - required since they 
 cannot use lists.*)
+
+let print_error student ta = 
+	Printf.printf("ERROR: Wrong answer...\n");
+	Printf.printf "Your answer: %s\n" student;
+	Printf.printf "Expected answer: %s\n" ta;
+	print_string "\n";;
 
 let rec ways_helper amt a b c d k = 
 	if amt = 0 then 1
@@ -23,26 +28,23 @@ let ways amt a b c d =
 	else
 	ways_helper amt a b c d 1;;
 
-let pagal amt a b c d f = amt, a, b, c, d, f;;
-
 let test_coinChanger amt a b c d = 
 	let student = Test1.coinChanger amt a b c d in
 	let ta = ways amt a b c d in
-	if student == ta then (if ta == -1 then gpt_easy else gpt)
-	else 0.0;;
+	if student == ta then (print_string "Correct Answer...\n\n"; gpt) 
+	else (print_error (string_of_int student) (string_of_int ta); 0.0);;;;
 
-let grade = ref 0.0;;
+let n,a,b,c,d = 
+	int_of_string(Sys.argv.(1)),
+	int_of_string(Sys.argv.(2)),
+	int_of_string(Sys.argv.(3)),
+	int_of_string(Sys.argv.(4)),
+	int_of_string(Sys.argv.(5));;
 
-let file_name = Sys.argv.(1);;
-let rec test() = 
-	let ic = Scanf.Scanning.open_in file_name in
-	try
-		while true 
-		do
-			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d %d %d %d %d\n" pagal in
-			(grade := (!grade +. (test_coinChanger amt a b c d)))
-		done
-	with End_of_file -> Scanf.Scanning.close_in ic;; 
 
-test();;
-print_float (!grade);;
+let file = "result.txt";;
+let () =
+  (* Write message to file *)
+  let oc = open_out_gen [Open_creat; Open_text; Open_append] 0o640 file in  (* create or truncate file, return channel *)
+  fprintf oc "%f\n" (test_coinChanger n a b c d);   (* write something *)   
+  close_out oc;;
