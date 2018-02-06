@@ -3,7 +3,6 @@ testno=0
 time_limit=1.5 #sec
 testcase_file="in.txt"
 result_file="result.txt"
-grade=0.0
 
 if [ -f $result_file ]
 then
@@ -45,14 +44,15 @@ else
     printf "Compilation failed with the following error:\n$compilation\n"
 fi
 
-
-
-while IFS= read line
-do
-    # echo $line
-    grade=$(echo $grade + $line | bc)
-done <"$result_file"
-
+grade=0.0
+if [ -f "$result_file" ]
+then
+    while IFS= read line
+    do
+        # echo $line
+        grade=$(echo $grade + $line | bc)
+    done <"$result_file"
+fi
 echo $grade
 echo "#! /bin/bash" > vpl_execution
 echo 'echo "Grade :=>> ' $grade\" >> vpl_execution
