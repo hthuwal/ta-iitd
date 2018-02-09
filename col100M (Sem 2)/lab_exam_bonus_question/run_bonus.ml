@@ -1,13 +1,18 @@
-open Test2
-
-let gpt_easy = 0.1;;
-let gpt = 1.1;;
+open Bonus
+open Printf
+let gpt = 0.01;;
 
 (* Solution to part (b) -- best way to combine coins a, b, c, d to create amount amt.
 'best' is defined by a weight function which is a parameter to  the main cost function*)
 
 let weight x = int_of_float ((float_of_int 2)** (float_of_int x));;
 let weightI x = 100 - x;;
+
+let print_error student ta = 
+	Printf.printf("ERROR: Wrong answer...\n");
+	Printf.printf "Your answer: %s\n" student;
+	Printf.printf "Expected answer: %s\n" ta;
+	print_string "\n";;
 
 let rec cost_helper amt a b c d k f = 
 	if amt = 0 then 0
@@ -36,30 +41,31 @@ let cost amt a b c d f =
 	else
 	cost_helper amt a b c d 1 f ;;
 
-let pagal amt a b c d f = amt, a, b, c, d, f;;
-
 let test_coinChanger_cost amt a b c d f = 
-	let student = Test2.coinChanger_cost amt a b c d f in
+	let student = Bonus.coinChanger_cost amt a b c d f in
 	let ta = cost amt a b c d f in
-	if student == ta then (if ta == -1 then gpt_easy else gpt)
-	else 0.0;;
+	if student == ta then (print_string "Correct Answer...\n\n"; gpt) 
+	else (print_error (string_of_int student) (string_of_int ta); 0.0);;
 
-let grade = ref 0.0;;
+let n,a,b,c,d,f = 
+	int_of_string(Sys.argv.(1)),
+	int_of_string(Sys.argv.(2)),
+	int_of_string(Sys.argv.(3)),
+	int_of_string(Sys.argv.(4)),
+	int_of_string(Sys.argv.(5)),
+	int_of_string(Sys.argv.(6));;
 
-let rec test() = 
-	let ic = Scanf.Scanning.open_in "bonus_evaluate.cases" in
-	try
-		while true 
-		do
-			let amt,a,b,c,d,f = Scanf.bscanf ic "%d %d  %d %d %d %d\n" pagal in
-			if f = 0 then 
-				(grade := (!grade +. (test_coinChanger_cost amt a b c d weight)))
-			else
-				(grade := (!grade +. (test_coinChanger_cost amt a b c d weightI)))
-				
-		done
-	with End_of_file -> Scanf.Scanning.close_in ic;; 
-
-test();;
-grade := !grade /. 20.0;;
-print_float (!grade);;
+let file = "result.txt";;
+let () =
+  (* Write message to file *)
+  let oc = open_out_gen [Open_creat; Open_text; Open_append] 0o640 file in  (* create or truncate file, return channel *)
+  if f = 0 then
+  (
+  	fprintf oc "%f\n" (test_coinChanger_cost n a b c d weight);   (* write something *)   
+	close_out oc
+  )
+  else
+  (
+  	fprintf oc "%f\n" (test_coinChanger_cost n a b c d weightI);   (* write something *)   
+  	close_out oc
+  );;
