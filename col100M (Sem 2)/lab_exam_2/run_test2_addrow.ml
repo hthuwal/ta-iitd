@@ -3,7 +3,7 @@ open Printf
 
 let gpt = 0.1;;
 
-let test1_runner mat r1 r2 = 
+let test2_runner mat r1 r2 = 
 	let student = Test2.addRows mat r1 r2 in
 	let ta = Model.addRows mat r1 r2 in
 	if student = ta then gpt
@@ -26,5 +26,5 @@ let file = "result.txt";;
 let () =
   (* Write message to file *)
   let oc = open_out_gen [Open_creat; Open_text; Open_append] 0o640 file in  (* create or truncate file, return channel *)
-  fprintf oc "%f\n" (test1_runner mat r1 r2);   (* write something *)   
+  fprintf oc "%f\n" (test2_runner mat r1 r2);   (* write something *)   
   close_out oc;;
