@@ -198,3 +198,12 @@ let solve mat b =
 		if n == 0 then raise No_solutions
 		else if n == max_int then raise Infinite_solutions
 		else solveRowEchelon (rowEchelon mat1)		
+
+
+let rec print_list l = match l with
+[] -> ()
+|x::xs -> print_float(x);print_string " " ;print_list xs;;
+
+let rec print_mat m = match m with
+[] -> ()
+|row::xs -> print_list row; print_newline();print_mat xs;;
