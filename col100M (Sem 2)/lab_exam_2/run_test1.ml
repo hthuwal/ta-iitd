@@ -5,24 +5,11 @@ open Printf
 
 let gpt = 0.1;;
 
-let read_list_from_carg = let l = (Array.length Sys.argv) in List.map float_of_string (Array.to_list (Array.sub (Sys.argv) 1 (l-1)))
-
-let convert_helper a i = Array.to_list (Array.sub a (i+1) (int_of_float a.(i))) ;;
-
-let rec read_mat_helper mat l i = 
-	if Array.length l = i 
-	then 
-		mat 
-	else 
-		let newmat = mat @ [(convert_helper l i)] in 
-		read_mat_helper newmat l (i + int_of_float(l.(i)) + 1) ;;
-
-let read_mat_from_carg = 
-	let l = (Array.length Sys.argv) in 
-		let flat = Array.map float_of_string (Array.sub (Sys.argv) 1 (l-1)) in
-			read_mat_helper [] flat 0;;
-
-let z = read_list_from_carg;;
+let test1_runner = 
+	let student = Test1.coinChanger amt a b c d in
+	let ta = ways amt a b c d in
+	if student == ta then (print_string "Correct Answer...\n\n"; gpt) 
+	else (print_error (string_of_int student) (string_of_int ta); 0.0);;;;
 
 let rec print_list l = match l with
 [] -> ()
