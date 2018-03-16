@@ -30,7 +30,7 @@ let rec dimension l =
 let rec dimension2H mat dim = 
 	match mat with
 	| [] -> dim
-	| row1::rest -> if (dimension row1) == (snd dim)
+	| row1::rest -> if (dimension row1) = (snd dim)
 			then dimension2H rest ((1+(fst dim)),(snd dim))
 			else raise Not_a_matrix
 
@@ -43,13 +43,13 @@ let checkDimension mat b =
 	try
 		let m = (dimension2 mat) in
 			let n = (dimension b) in
-				if (fst m) == n then true
+				if (fst m) = n then true
 				else false
 	with e ->
 		false
 
 let rec insertH l i a = 
-	if i == 0 then
+	if i = 0 then
 		((a::(tl l)), (hd l))
 	else
 		let z = (insertH (tl l) (i-1) a) in
@@ -57,7 +57,7 @@ let rec insertH l i a =
 		
 		
 let rec swapH l i j =
-	if i == 0 then
+	if i = 0 then
 		let z = insertH (tl l) (j-1) (hd l) in
 			(snd z)::(fst z)
 	else
@@ -65,7 +65,7 @@ let rec swapH l i j =
 
 
 let swap l i j = 
-	if (i == j) then l
+	if (i = j) then l
 	else if (i < j) then swapH l i j
 	else swapH l j i	
 
@@ -76,7 +76,7 @@ let rec multH l c =
 	| hd::tl -> (hd *. c)::(multH tl c)
 
 let rec mult mat i c = 
-	if i == 0 then (multH (hd mat) c)::(tl mat)
+	if i = 0 then (multH (hd mat) c)::(tl mat)
 	else (hd mat)::(mult (tl mat) (i-1) c)
 
 let rec addLists l1 l2 = 
@@ -85,7 +85,7 @@ let rec addLists l1 l2 =
 	| h::t -> (h +. (hd l2))::(addLists t (tl l2))
 
 let rec replace l i x = 
-	if i == 0 then
+	if i = 0 then
 		x::(tl l)
 	else
 		(hd l):: (replace (tl l) (i-1) x)
@@ -109,7 +109,7 @@ let rec firstNonZeroColumn mat =
 		if z < k then z else k
 
 let rec hasNonZeroIndex l i = 
-	if (i == 0) then let k = (hd l) in (k < 0. || k > 0.)
+	if (i = 0) then let k = (hd l) in (k < 0. || k > 0.)
 	else hasNonZeroIndex (tl l) (i-1)
 
 let rec firstRowWithLead mat i rowNum= 
@@ -120,7 +120,7 @@ let rec firstRowWithLead mat i rowNum=
 
 
 let rec normalizeH mat c j =
-	if (j == 0) then mat
+	if (j = 0) then mat
 	else
 		let mat0c = (nth (nth mat 0) c) in
 		let matjc = (nth (nth mat j) c) in
@@ -139,7 +139,7 @@ let rec rowEchelon mat =
 	| [] -> []
 	| _ ->
 	let c = firstNonZeroColumn mat in
-		if c == max_int then mat
+		if c = max_int then mat
 		else
 			let r = firstRowWithLead mat c 0 in
 			let mat1 = swap mat 0 r in
@@ -151,9 +151,9 @@ let rec numSolutionsH mat c =
 	match mat with
 	| [] -> 1
 	| hd::tl -> let z = (firstNonZeroIndex hd 0) in
-		    if (c == z)
+		    if (c = z)
 		    then (numSolutionsH tl (c+1))
-		    else if ((length hd) == (z + 1)) then 0
+		    else if ((length hd) = (z + 1)) then 0
 		    else max_int
 
 
@@ -191,12 +191,12 @@ let rec createMat mat b =
 
 
 let solve mat b = 
-	if (checkDimension mat b) == false then raise Dimension_mismatch
+	if (checkDimension mat b) = false then raise Dimension_mismatch
 	else 
 		let mat1 = createMat mat b in
 		let n = numSolutions mat1 in
-		if n == 0 then raise No_solutions
-		else if n == max_int then raise Infinite_solutions
+		if n = 0 then raise No_solutions
+		else if n = max_int then raise Infinite_solutions
 		else solveRowEchelon (rowEchelon mat1)		
 
 
