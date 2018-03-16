@@ -7,11 +7,19 @@ let gpt = 0.1;;
 let test5_runner mat b=  
 	let student = 
 		try List.map string_of_float (Test5.solve mat b)
-		with e -> [ to_string e ]
+		with 
+			Test5.Dimension_mismatch -> ["Dimension_mismatch"]
+		|   Test5.No_solutions -> ["No_solutions"]
+		|   Test5.Infinite_solutions -> ["Infinite_solutions"]
+		|   _ -> ["Something weird"]
 	in 
 	let ta = 
 		try List.map string_of_float (Model.solve mat b)
-		with e -> [ to_string e ]
+		with 
+			Model.Dimension_mismatch -> ["Dimension_mismatch"]
+		|   Model.No_solutions -> ["No_solutions"]
+		|   Model.Infinite_solutions -> ["Infinite_solutions"]
+		|   _ -> ["Something weird"]
 	in
 	if student = ta then gpt
 	else 0.0;;
