@@ -1,5 +1,5 @@
 # #!/bin/bash
-time_limit=0.3 #sec
+time_limit=0.5 #sec
 result_file="result.txt"
 temp_grade=0
 tf1="cases1.txt"
@@ -29,14 +29,18 @@ fi
 function assess(){
     local exit_status=$1
     local execution=$2
+    local testno=$3
     if [ $exit_status -eq 124 ] #timeout occured
     then
         printf "Execution Timeout (>$time_limit sec) while evaluating.\n"
     
     elif [ $exit_status -eq 0 ] #No runtime error occured (Correct or wrong answer)
     then
-        printf ""
-    
+        if [[ $execution =~ INCORRECT ]]
+        then
+        printf "\nTEST CASE $testno:"
+        printf "$execution\n"
+        fi
     else #some error occured for this test case
         printf "Runtime Error: $execution\n"
     fi
@@ -71,7 +75,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf1"
 
     if [ -f $result_file ]
@@ -80,7 +84,7 @@ then
     else
         g1=0
     fi
-    num_corr=$(echo $g1 / 0.1 | bc)
+    num_corr=$(echo $g1 / 0.0125 | bc)
     printf "$num_corr/20 Correct\n"
 
     if [ -f out ]
@@ -94,7 +98,7 @@ fi
 
 printf "\ntest2.ml\n"
 printf "\nTesting swap\n"
-compilation=$(ocamlc -o out test2.ml model.ml run_test2_swap.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml model.ml run_test2_swap.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -107,7 +111,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf2a"
 
     if [ -f $result_file ]
@@ -117,8 +121,8 @@ then
         g2a=0
     fi
     gpt=0.1
-    num_corr=$(echo $g2a / $gpt | bc)
-    printf "$num_corr/60 Correct\n"
+    num_corr=$(echo $g2a / 0.03 | bc)
+    printf "$num_corr/50 Correct\n"
 
     if [ -f out ]
     then
@@ -130,7 +134,7 @@ fi
 
 
 printf "\nTesting mult\n"
-compilation=$(ocamlc -o out test2.ml model.ml run_test2_mult.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml model.ml run_test2_mult.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -142,7 +146,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf2b"
 
     if [ -f $result_file ]
@@ -151,8 +155,8 @@ then
     else
         g2b=0
     fi
-    num_corr=$(echo $g2b / 0.1 | bc)
-    printf "$num_corr/60 Correct\n"
+    num_corr=$(echo $g2b / 0.03 | bc)
+    printf "$num_corr/50 Correct\n"
 
     if [ -f out ]
     then
@@ -164,7 +168,7 @@ fi
 
 
 printf "\nTesting addRows\n"
-compilation=$(ocamlc -o out test2.ml model.ml run_test2_addrows.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml model.ml run_test2_addrows.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -176,7 +180,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf2c"
 
     if [ -f $result_file ]
@@ -185,8 +189,8 @@ then
     else
         g2c=0
     fi
-    num_corr=$(echo $g2c / 0.1 | bc)
-    printf "$num_corr/60 Correct\n"
+    num_corr=$(echo $g2c / 0.03 | bc)
+    printf "$num_corr/50 Correct\n"
 
     if [ -f out ]
     then
@@ -198,7 +202,7 @@ fi
 
 
 printf "\ntest3.ml\n"
-compilation=$(ocamlc -o out test3.ml model.ml run_test3.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml test3.ml model.ml run_test3.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -209,7 +213,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf3"
 
     if [ -f $result_file ]
@@ -218,7 +222,7 @@ then
     else
         g3=0
     fi
-    num_corr=$(echo $g3 / 0.1 | bc)
+    num_corr=$(echo $g3 / 0.0225 | bc)
     printf "$num_corr/100 Correct\n"
 
     if [ -f out ]
@@ -231,7 +235,7 @@ else
 fi
 
 printf "\ntest4.ml\n"
-compilation=$(ocamlc -o out test4.ml model.ml run_test4.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml test3.ml test4.ml model.ml run_test4.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -242,7 +246,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf4"
 
     if [ -f $result_file ]
@@ -251,7 +255,7 @@ then
     else
         g4=0
     fi
-    num_corr=$(echo $g4 / 0.1 | bc)
+    num_corr=$(echo $g4 / 0.02 | bc)
     printf "$num_corr/50 Correct\n"
 
     if [ -f out ]
@@ -265,7 +269,7 @@ fi
 
 printf "\ntest5.ml\n"
 printf "\nTesting solveRowEchelon\n"
-compilation=$(ocamlc -o out test5.ml model.ml run_test5a.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml test3.ml test4.ml test5.ml model.ml run_test5a.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -277,7 +281,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf5a"
 
     if [ -f $result_file ]
@@ -286,7 +290,7 @@ then
     else
         g5a=0
     fi
-    num_corr=$(echo $g5a / 0.1 | bc)
+    num_corr=$(echo $g5a / 0.02 | bc)
     printf "$num_corr/50 Correct\n"
 
     if [ -f out ]
@@ -299,7 +303,7 @@ fi
 
 
 printf "\nTesting solve\n"
-compilation=$(ocamlc -o out test5.ml model.ml run_test5b.ml 2>&1) # if compilation is successful out file is created
+compilation=$(ocamlc -o out test1.ml test2.ml test3.ml test4.ml test5.ml model.ml run_test5b.ml 2>&1) # if compilation is successful out file is created
 testno=0
 num_corr=0
 if [ -f "out" ]
@@ -311,7 +315,7 @@ then
         arr=($line) #splitting line into elements
         execution=$(timeout $time_limit ./out ${arr[*]} 2>&1)
         exit_status=$?
-        assess "$exit_status" "$execution"
+        assess "$exit_status" "$execution" "$testno"
     done <"$tf5b"
 
     if [ -f $result_file ]
@@ -324,7 +328,7 @@ else
     printf "Compilation failed with the following error:\n$compilation\n\n"
 fi
 
-num_corr=$(echo $g5b / 0.1 | bc)
+num_corr=$(echo $g5b / 0.02 | bc)
 printf "$num_corr/50 Correct\n"
 
 grade=$(echo $g1 + $g2a + $g2b + $g2c + $g3 + $g4 + $g5a + $g5b | bc)
