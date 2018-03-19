@@ -1,13 +1,16 @@
 open Array
 open Printf
 
-let gpt = 0.1;;
+let gpt = 0.0125;;
+
+let print_bool b = if b = true then print_string "True" else print_string "False" ;;
 
 let test1_runner mat b = 
 	let student = Test1.checkDimension mat b in
 	let ta = Model.checkDimension mat b in
-	if student = ta then gpt
-	else 0.0;;
+	if student = ta then (print_string "CORRECT ANSWER\n"; gpt)
+	else(print_string "INCORRECT ANSWER: \nMATRIX A\n";Model.print_mat (List.map Model.apply mat); print_string "\nVECTOR b: "; Model.print_list (Model.apply b); print_string "\n\nEXPECTED ANSWER: ";print_bool ta; print_string "\n\nYOUR ANSWER: "; print_bool student; print_string "\n";0.0);;
+
 
 let rec remove_last l ans= match l with
 [] -> []

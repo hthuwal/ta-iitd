@@ -1,13 +1,23 @@
 open Array
 open Printf
 
-let gpt = 0.1;;
+let gpt = 0.0225;;
 
 let test3_runner mat = 
-	let student = Test3.rowEchelon mat in
-	let ta = Model.rowEchelon mat in
-	if student = ta then gpt
-	else 0.0;;
+	let student = List.map Model.apply (Test3.rowEchelon mat) in
+	let ta = List.map Model.apply (Model.rowEchelon mat) in
+	if student = ta then (print_string "CORRECT ANSWER\n"; gpt)
+	else
+	(
+		print_string "INCORRECT ANSWER\n"; 
+		print_string "MATRIX\n";
+		Model.print_mat (List.map Model.apply mat); 
+		print_string "\nEXPECTED ANSWER\n";
+		Model.print_mat ta; 
+		print_string "\nYOUR ANSWER\n"; 
+		Model.print_mat student; 
+		print_string "\n\n";0.0
+    );;
 
 let mat = Model.read_mat_from_carg;;
 
