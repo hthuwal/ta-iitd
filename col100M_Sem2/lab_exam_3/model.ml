@@ -511,6 +511,13 @@ let compareLists l1 l2 =
 	let l2S = List.sort compareInt l2 in
 	l1S = l2S
 
+let compareTupleLists l1 l2 =
+	let compareTuples (a,b) (c,d) = if a = c then b - d else a - c in
+	let l1S = List.sort compareTuples l1 in
+	let l2S = List.sort compareTuples l2 in
+	l1S = l2S
+
+
 let compareSudokus sudoku1 sudoku2 = 
 	let flag = ref true in
 	(for  i = 0 to (size - 1) do
