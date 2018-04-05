@@ -10,7 +10,7 @@ let gpt = 0.2;;
 let runner sudoku_stud sudoku_ta value row = 
     let student = Test.eliminateValueRow sudoku_stud value row in
     let ta = Model.eliminateValueRow sudoku_ta value row in
-    if student = ta then (gpt)
+    if (student = ta) && (Model.compareSudokus sudoku_stud sudoku_ta) then (gpt)
     else (0.0);;
     (* if student = ta then (print_string "CORRECT ANSWER\n"; gpt)
     else(print_string "INCORRECT ANSWER: \nMATRIX A\n";Model.print_mat (List.map Model.apply mat); print_string "\nVECTOR b: "; Model.print_list (Model.apply b); print_string "\n\nEXPECTED ANSWER: ";print_bool ta; print_string "\n\nYOUR ANSWER: "; print_bool student; print_string "\n";0.0);;
