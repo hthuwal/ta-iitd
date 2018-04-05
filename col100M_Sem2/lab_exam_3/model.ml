@@ -2,10 +2,7 @@ open String
 open Printf
 open List
 open Array
-
-type cell =
-| Value of int
-| PossibleValues of int list
+open Cell
 
 let size = 9;;
 let minisize = 3;;
