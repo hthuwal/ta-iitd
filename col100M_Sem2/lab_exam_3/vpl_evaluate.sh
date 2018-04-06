@@ -49,6 +49,10 @@ function run(){
     then
         rm out # delete previous executables
     fi
+    if [ -f $result_file ]
+    then
+        rm $result_file # delete previous executables
+    fi
     runner=$1
     RANDOM=$2 # seeding the random number generator
     func_name=$3
@@ -120,8 +124,8 @@ run run3_2.ml 534 "loneCells"
 run run3_3_1.ml 8 "getCellsRow"
 run run3_3_2.ml 512 "getCellsCol"
 run run3_3_3.ml 456 "getCellsBox"
-run run3_3_4.ml 13 "loneRanger"
-run run3_4.ml 483 "getTwin"
+run run3_3_4.ml 17043 "loneRanger"
+run run3_4.ml 30689 "getTwin"
 run run3_5.ml 931 "solveHumanistic"
 
 echo "#! /bin/bash" > vpl_execution

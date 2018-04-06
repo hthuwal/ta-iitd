@@ -21,11 +21,11 @@ function assess(){
     elif [ $exit_status -eq 0 ] #No runtime error occured (Correct or wrong answer)
     then
         printf ""
-        # if [[ $execution =~ INCORRECT ]]
-        # then
-        # printf "\nTEST CASE $testno:"
-        # printf "$execution\n"
-        # fi
+        if [[ $execution =~ INCORRECT ]]
+        then
+        printf "\nTEST CASE $testno:"
+        printf "$execution\n"
+        fi
     else #some error occured for this test case
         printf "Runtime Error: $execution\n"
     fi
@@ -67,7 +67,7 @@ function run(){
                 row=$(($RANDOM % 9))
                 execution=$(timeout $time_limit ./out $input_file $value $row 2>&1)
                 exit_status=$?
-                assess "$exit_status" "$execution" "$(($i-7))"
+                assess "$exit_status" "$execution" "$(($i))"
 
             elif [[ $runner == "run3_1_4.ml" ]]
             then
@@ -75,13 +75,13 @@ function run(){
                 j=$(($RANDOM % 9))
                 execution=$(timeout $time_limit ./out $input_file $i $j 2>&1)
                 exit_status=$?
-                assess "$exit_status" "$execution" "$(($i-7))"
+                assess "$exit_status" "$execution" "$(($i))"
 
             elif [[ $runner =~ run3_[2,5]\.ml ]]
             then
                 execution=$(timeout $time_limit ./out $input_file 2>&1)
                 exit_status=$?
-                assess "$exit_status" "$execution" "$(($i-7))"
+                assess "$exit_status" "$execution" "$(($i))"
 
             elif [[ $runner == "run3_3_4.ml" || $runner == "run3_4.ml" ]]
             then
@@ -89,7 +89,7 @@ function run(){
                 func_num=$(( ($RANDOM % 3) + 1 ))
                 execution=$(timeout $time_limit ./out $input_file $hcid $func_num 2>&1)
                 exit_status=$?
-                assess "$exit_status" "$execution" "$(($i-7))"
+                assess "$exit_status" "$execution" "$(($i))"
             else
                 echo "This shouldn't have happened"
             fi
@@ -120,8 +120,8 @@ run run3_2.ml 534 "loneCells"
 run run3_3_1.ml 8 "getCellsRow"
 run run3_3_2.ml 512 "getCellsCol"
 run run3_3_3.ml 456 "getCellsBox"
-run run3_3_4.ml 13 "loneRanger"
-run run3_4.ml 483 "getTwin"
+run run3_3_4.ml 333 "loneRanger"
+run run3_4.ml 82 "getTwin"
 run run3_5.ml 931 "solveHumanistic"
 
 printf "\nScore: $grade/11"

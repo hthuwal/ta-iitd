@@ -504,6 +504,7 @@ let testMySudoku sudoku inputGrid =
 		(!flag))
 	else false
 
+let compareInt a b = a - b
 
 let compareLists l1 l2 = 
 	let compareInt x y = x - y in
@@ -516,6 +517,16 @@ let compareTupleLists l1 l2 =
 	let l1S = List.sort compareTuples l1 in
 	let l2S = List.sort compareTuples l2 in
 	l1S = l2S
+
+let rec printTupleList_h l1 = 
+	match l1 with
+	[] -> printf "\n"
+	|(a,b)::xs ->printf "(%d, %d)" a b; printTupleList_h xs;;
+
+let printTupleList l1 = 
+	let compareTuples (a,b) (c,d) = if a = c then b - d else a - c in
+	let l1S = List.sort compareTuples l1 in
+	printTupleList_h l1S;;
 
 
 let compareSudokus sudoku1 sudoku2 = 
@@ -533,3 +544,61 @@ let compareSudokus sudoku1 sudoku2 =
 	done;
 	(!flag))
 
+let comparePrintSudokus sudokuTA sudokuS sudokuO=
+        let flag = ref true in
+        (for  i = 0 to (size - 1) do
+                for j = 0 to (size - 1) do
+                        let c1 = get (get sudokuTA i) j in
+                        let c2 = get (get sudokuS i) j in
+                        match (c1, c2) with
+                        | (Value x, Value y) -> if x != y then 
+			(flag := false;
+			printf "Cell [%d,%d] : \n" i j;
+			(let cO = get (get sudokuO i) j in
+				match cO with
+				| PossibleValues l -> (printf "\t Original "; print_list (List.sort compareInt l); printf "\n")
+				| Value v -> (printf "\t Original : Value %d\n" v));
+			printf "\t Expected (Final) = Value %d \n" x;
+			printf "\t Your Answer (Final) = Value %d\n" y;			
+			)
+                        | (PossibleValues l1, PossibleValues l2) -> if not (compareLists l1 l2)
+                                then 
+			(flag := false;
+			printf "Cell [%d, %d] : \n" i j;
+			(let cO = get (get sudokuO i) j in
+				match cO with
+				| PossibleValues l -> (printf "\t Original "; print_list (List.sort compareInt l); printf "\n")
+				| Value v -> (printf "\t Original : Value %d\n" v));
+			printf "\t Expected (Final) = Possible Values ";
+			print_list (List.sort compareInt l1);
+			printf "\n\t Your Answer (Final) = Possible Values ";
+			print_list (List.sort compareInt l2);
+			printf "\n"
+			)
+                        | (Value x, PossibleValues l2) -> 
+			(flag := false;
+			printf "Cell [%d, %d] : \n" i j;
+			(let cO = get (get sudokuO i) j in
+				match cO with
+				| PossibleValues l -> (printf "\t Original "; print_list (List.sort compareInt l); printf "\n")
+				| Value v -> (printf "\t Original : Value %d\n" v));
+			printf "\t Expected (Final) = Value %d \n" x;
+			printf "\t Your Answer (Final) = Possible Values ";
+			print_list (List.sort compareInt l2);
+			printf "\n"
+			)
+			| (PossibleValues l1, Value y) ->
+			(flag := false;
+			printf "Cell [%d, %d]: \n" i j;
+			(let cO = get (get sudokuO i) j in
+				match cO with
+				| PossibleValues l -> (printf "\t Original "; print_list (List.sort compareInt l); printf "\n")
+				| Value v -> (printf "\t Original : Value %d\n" v));
+			printf "\t Expected (Final) = Possible Values ";
+			print_list (List.sort compareInt l1);
+			printf "\n\t Your Answer (Final) = Value %d\n" y
+			)
+				
+                done
+        done;
+        (!flag))
