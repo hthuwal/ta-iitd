@@ -26,7 +26,8 @@ let rec split_on_space s l =
 		let i = String.index s ' ' in
 		if (i > 0) then let x = (String.sub s 0 i) in (split_on_space (String.sub s (i+1) ((String.length s) - (i+1))) (l@[x]))
 		else split_on_space (String.sub s 1 ((String.length s) - 1)) l
-	with e -> l@[s]
+	with e -> 
+		if s = "" then l else l@[s]
 
 (* reads a text file and populates input grid.
 0 is for empty cell *)
@@ -43,6 +44,7 @@ let readFile file =
 		done
 			
 	with e ->
+		print_string (Printexc.to_string e);
 		close_in_noerr ic
 
 (* populates cell array sudoku from the inputGrid *)
@@ -348,10 +350,19 @@ let getPairAll sudoku =
 	done;
 	(!flag))
 
+let rec print_list l = 
+	match l with
+	| [] -> ()
+	| h::t -> (print_int h; print_string " "; print_list t)
+
+
+let print_bool b = if b = true then print_string "True\n" else print_string "False\n";;
+
+
 (* Checks if sudoku is a valid grid. 
 - All cells are Value cells, with values in [1, size], and 
 - No conflicts in any row/ column/ box. *)
-let isSolution sudoku = 
+let isSolution2 sudoku = 
 	let flag = ref true in
 	(for i = 0 to (size - 1) do
 		for j = 0 to (size - 1) do
@@ -374,11 +385,54 @@ let isSolution sudoku =
 	(!flag))
 
 
+let isSolution sudoku = 
+	let flag = ref true in
+	(
+		for i = 0 to (size - 1) do
+			for j = 0 to (size - 1) do
+				let c = get (get sudoku i) j in
+				match c with
+				| PossibleValues l -> 
+				(flag := false;
+				printf "Unfilled cell %d %d = PossibleValues " i j;
+				print_list l;
+				printf "\n"
+				)
+				| Value k -> if (k < 1) || (k > size) then 
+				(flag := false;
+				printf "Invalid value %d at cell %d,%d\n" k i j
+				)
+				
+			done
+		done;
+		if (!flag) = true then
+			for v = 1 to size do
+				for id = 0 to (size - 1) do
+					let c1 = (getCellsValueRow sudoku id v) in
+					let c2 = (getCellsValueCol sudoku id v) in
+					let c3 = (getCellsValueBox sudoku id v) in
+					(
+					flag := (!flag) && (c1 = 1)	
+							&& (c2 = 1)
+							&& (c3 = 1);
+					if (c1 = 0) then printf "Value %d non-existent in row %d\n" v id
+					else if (c1 > 1) then printf "Value %d appears more than once in row %d\n" v id
+					else if (c2 = 0) then printf "Value %d non-existent in col %d\n" v id
+					else if (c2 > 1) then printf "Value %d appears more than once in col %d\n" v id
+					else if (c3 = 0) then printf "Value %d non-existent in box %d\n" v id
+					else if (c3 > 1) then printf "Value %d appears more than once in box %d\n" v id;
+					)
+				done
+			done
+		else ();
+		(!flag)
+	)
+
 (* Runs all heuristics to fill as many cells in the grid as possible,
 and eliminate as many choices as possible. Does not return anything *)
 let solveHumanistic sudoku = 
 	let flag = ref true in
-	while ((!flag) = true && (not (isSolution sudoku))) do
+	while ((!flag) = true && (not (isSolution2 sudoku))) do
 		let flagE = eliminateAll sudoku in
 		let flagLC = loneCells sudoku in
 		let flagLR = loneRangerAll sudoku in
@@ -465,15 +519,10 @@ let rec solveBruteForce sudoku =
 
 let solveSudoku sudoku = 
 	(solveHumanistic sudoku;
-	let flagH = isSolution sudoku in
+	let flagH = isSolution2 sudoku in
 		if (flagH = false) then
 			solveBruteForce sudoku
 		else true)
-
-let rec print_list l = 
-	match l with
-	| [] -> ()
-	| h::t -> (print_int h; print_string " "; print_list t)
 
 let print_sudoku sudoku = 
 	for i = 0 to (size - 1) do
@@ -486,6 +535,7 @@ let print_sudoku sudoku =
 		print_string "\n")
 	done
 
+
 (* Checks if the sudoku grid is valid and if the 
 values at all filled in cells of the inputGrid match. *)
 let testMySudoku sudoku inputGrid = 
@@ -497,12 +547,23 @@ let testMySudoku sudoku inputGrid =
 				if x > 0 then
 				let c = get (get sudoku i) j in
 				match c with
-				| PossibleValues l -> flag := false
-				| Value j -> if (j != x) then flag := false
+				| PossibleValues l -> 
+				(
+				flag := false;
+				printf "Unfilled cell [%d,%d] = PossibleValues " i j;
+				print_list l;
+				printf "\n"
+				)
+				| Value m -> if (m != x) then 
+				(
+				printf "Mismatch with inputGrid at cell [%d, %d]. Input = %d, your output = %d\n" i j x m;
+				flag := false
+				)
 			done
 		done;
 		(!flag))
 	else false
+
 
 let compareInt a b = a - b
 
@@ -602,3 +663,4 @@ let comparePrintSudokus sudokuTA sudokuS sudokuO=
                 done
         done;
         (!flag))
+
