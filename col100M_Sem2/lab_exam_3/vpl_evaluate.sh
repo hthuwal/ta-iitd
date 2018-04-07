@@ -64,7 +64,12 @@ function run(){
     then
         for i in {7..31} 
         do
-            input_file="testcases/9input"$i
+            if [[ $runner == "run4.ml" ]]
+            then
+                input_file="testcases/4input"$(($i-1))
+            else
+                input_file="testcases/9input"$i
+            fi
             if [[ $runner =~ run3_[1,3]_1\.ml || $runner =~ run3_[1,3]_2\.ml || $runner =~ run3_[1,3]_3\.ml ]]
             then
                 value=$(( ($RANDOM % 9) + 1 ))
@@ -75,13 +80,13 @@ function run(){
 
             elif [[ $runner == "run3_1_4.ml" ]]
             then
-                i=$(($RANDOM % 9))
+                k=$(($RANDOM % 9))
                 j=$(($RANDOM % 9))
-                execution=$(timeout $time_limit ./out $input_file $i $j 2>&1)
+                execution=$(timeout $time_limit ./out $input_file $k $j 2>&1)
                 exit_status=$?
                 assess "$exit_status" "$execution" "$(($i-7))"
 
-            elif [[ $runner =~ run3_[2,5]\.ml ]]
+            elif [[ $runner =~ run3_[2,5]\.ml || $runner == "run4.ml" ]]
             then
                 execution=$(timeout $time_limit ./out $input_file 2>&1)
                 exit_status=$?
@@ -127,6 +132,7 @@ run run3_3_3.ml 456 "getCellsBox"
 run run3_3_4.ml 17043 "loneRanger"
 run run3_4.ml 30689 "getTwin"
 run run3_5.ml 931 "solveHumanistic"
+run run4.ml 456 "solveBruteForce"
 
 echo "#! /bin/bash" > vpl_execution
 echo 'echo "Grade :=>> ' $grade\" >> vpl_execution

@@ -2,6 +2,7 @@
 time_limit=0.5 #sec
 result_file="result.txt"
 gpt=0.2
+gpt4=0.202
 num_cases=5
 grade=0
 
@@ -60,7 +61,12 @@ function run(){
     then
         for i in {1..5} 
         do
-            input_file="testcases/9input"$i
+            if [[ $runner == "run4.ml" ]]
+            then
+                input_file="testcases/4input"$i
+            else
+                input_file="testcases/9input"$i
+            fi
             if [[ $runner =~ run3_[1,3]_1\.ml || $runner =~ run3_[1,3]_2\.ml || $runner =~ run3_[1,3]_3\.ml ]]
             then
                 value=$(( ($RANDOM % 9) + 1 ))
@@ -71,13 +77,13 @@ function run(){
 
             elif [[ $runner == "run3_1_4.ml" ]]
             then
-                i=$(($RANDOM % 9))
+                k=$(($RANDOM % 9))
                 j=$(($RANDOM % 9))
-                execution=$(timeout $time_limit ./out $input_file $i $j 2>&1)
+                execution=$(timeout $time_limit ./out $input_file $k $j 2>&1)
                 exit_status=$?
                 assess "$exit_status" "$execution" "$(($i))"
 
-            elif [[ $runner =~ run3_[2,5]\.ml ]]
+            elif [[ $runner =~ run3_[2,5]\.ml || $runner == "run4.ml" ]]
             then
                 execution=$(timeout $time_limit ./out $input_file 2>&1)
                 exit_status=$?
@@ -102,7 +108,12 @@ function run(){
             curr_grade=0
         fi
         
-        num_corr=$(echo $curr_grade / $gpt | bc)
+        if [[ $runner == "run4.ml" ]] 
+        then
+            num_corr=$(echo $curr_grade / $gpt4 | bc)
+        else
+            num_corr=$(echo $curr_grade / $gpt | bc)
+        fi
         printf "$num_corr/$num_cases Correct\n"
         
         grade=$(echo $grade + $curr_grade | bc)
@@ -123,5 +134,6 @@ run run3_3_3.ml 456 "getCellsBox"
 run run3_3_4.ml 333 "loneRanger"
 run run3_4.ml 82 "getTwin"
 run run3_5.ml 931 "solveHumanistic"
+run run4.ml 456 "solveBruteForce"
 
 printf "\nScore: $grade/11"
