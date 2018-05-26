@@ -1,5 +1,4 @@
-
-# COL 100 - Moodle
+# COL 100 - Fall 2017 - Moodle
 
 TA work done with [@dufferzafar](https://github.com/dufferzafar).
 
