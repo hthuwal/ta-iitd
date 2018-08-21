@@ -4,19 +4,29 @@ import random
 import csv
 import os
 file = sys.argv[1]
-file_name, _ = os.path.splitext(file)
+file_name, ext = os.path.splitext(file)
 
 distribution = {}
-with open(file, "r") as f:
-    for line in f:
-        line = json.loads(line)
-        rating = line['overall']
-        text = line['reviewText']
-        text.replace(",", "")
+if ext == '.json':
+    with open(file, "r") as f:
+        for line in f:
+            line = json.loads(line)
+            rating = line['overall']
+            text = line['reviewText']
+            text.replace(",", "")
+            if rating not in distribution:
+                distribution[rating] = []
+            distribution[rating].append(text)
+
+if ext == '.csv':
+    f = open(file, "r")
+    reader = csv.reader(f)
+    for row in reader:
+        rating = row[0]
+        text = row[1]
         if rating not in distribution:
             distribution[rating] = []
         distribution[rating].append(text)
-
 
 test, train = [], []
 for rating in distribution:
