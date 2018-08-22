@@ -274,5 +274,10 @@ _build/
 setup.data
 setup.log
 
-
+*bin
+*data
+*include
+*lib
+*pip-selfcheck.json
 # End of https://www.gitignore.io/api/ocaml
+*vpl_execution
