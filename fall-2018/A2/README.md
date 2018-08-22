@@ -40,8 +40,11 @@ Note: You should be able to find the input_size and num_output_classes from trai
     
 **Data**
 
-- devnagri.csv: Train data  
-    
+- devnagri_train.csv: Train data  
+- devnagri_test_public.sv: Public Test data
+
+Note: In the Public test data, actual class labels are replaced with -1
+
 **Marking scheme**
 
 Marks will be given based on following categories:
@@ -49,11 +52,6 @@ Marks will be given based on following categories:
 - For code, you can get 0 (error), half (code runs fine but predictions are incorrect within some predefined threshold) and full (works as expected).
 - For part-b and part-c, marks will be given based on training time and accuracy on test data-set. There will be relative marking for this part.
 - For part-b and part-c marking will be done in two parts: code (75%) and report(25%).
-
-
-**Checking Program**
-
-Fraction of correct test samples and training time will be used as evaluation criterion.
 
 **Submission**
 
@@ -94,8 +92,10 @@ This program will train naive bayes model using given code on train data, make p
 **Data**
 
 - amazon_train.csv: Train data
-- amazon_test.csv: Test data
+- amazon_test_public.csv: Public Test data
     
+Note: In the Public test data, actual class labels are replaced with -1
+
 **Marking scheme**
 
 Marks will be given based on following categories:
@@ -103,10 +103,6 @@ Marks will be given based on following categories:
 - For code: you can get 0 (error), half (code runs fine but predictions are incorrect within some predefined threshold) and full (works as expected).
 - For part-c, marks will be given based on training time and macro-Fscore on test data-set. There will be relative marking for this part.
 - For part-c marking will be done in two parts: code (10) and report(5).
-
-**Checking Program**
-
-Fraction of correct test samples and training time will be used as evaluation criterion.
 
 **Submission**
 
