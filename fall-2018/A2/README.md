@@ -23,6 +23,7 @@ Note: You should be able to find the input_size and num_output_classes from trai
 - **out**: Output file for predictions. One value in each line.
 - **other_options**: Only for part a
     + batch_size
+    + η<sub>0</sub> (Initial Learning rate)
     + activation_function: `relu, tanh, sigmoid`
     + space seperated list of hidden layer sizes
     
