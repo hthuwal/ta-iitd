@@ -119,24 +119,33 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
 
 
 if __name__ == '__main__':
+
+    """ Reading Training and Test Data"""
     train_x, train_y = read_data("col341_a2_data/devnagri_train.csv")
+    test_x, test_y = read_data("col341_a2_data/devnagri_test_public.csv")
+
     lb = LabelBinarizer()
     lb.fit([i for i in range(46)])
-    train_y = lb.transform(train_y)
-    # print(train_y[0])
+    train_y = lb.transform(train_y)  # Converting train labels to 1 hot encoding
 
-    test_x, test_y = read_data("col341_a2_data/devnagri_test_public.csv")
+    """ Model Parameters """
     batch_size = int(sys.argv[1])
     learning_rate = float(sys.argv[2])
     activation = sys.argv[3]
     inp_size = train_x.shape[1]
     output_size = 46
-    # print(inp_size, output_size)
     hidden_layers = list(map(int, sys.argv[4:]))
+
+    """ Creating Neural Net Model Object"""
+
     net = Neural_Network(activation, inp_size, hidden_layers, output_size)
     if use_cuda:
         net = net.cuda()
-    test_pred = train_and_predict(net, train_x, train_y, test_x, test_y, learning_rate, batch_size, 10)
+
+    """ Training and predicting outputs"""
+    test_pred = train_and_predict(net, train_x, train_y, test_x, test_y, learning_rate, batch_size, 100)
+
+    """ Writing Predictions to output file"""
     with open("pred.txt", "w") as f:
         for pred in test_pred:
             f.write(str(pred) + "\n")
