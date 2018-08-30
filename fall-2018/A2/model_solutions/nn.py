@@ -13,7 +13,7 @@ print(use_cuda)
 
 
 def read_data(file):
-    x = pd.read_csv(file)
+    x = pd.read_csv(file, header=None)
     x = x.values
     y = x[:, 0]
     x = np.delete(x, 0, axis=1)
