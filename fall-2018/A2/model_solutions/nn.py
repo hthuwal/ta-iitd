@@ -24,6 +24,7 @@ class Neural_Network(nn.Module):
     def get_activation(self, activation):
         activations = {
             'relu': nn.ReLU(),
+            'leakyrelu': nn.LeakyReLU(),
             'sigmoid': nn.Sigmoid(),
             'tanh': nn.Tanh(),
             'softmax': nn.Softmax()
