@@ -13,32 +13,39 @@ neural - Run the executable program for linear regression
 
 This program will train neural network model using given code on train data, make predictions on test data and write final predictions in given output file.
 
-Note: You should be able to find the input_size and num_output_classes from training data.
+Note: 
+
+- You should be able to find the input_size and num_output_classes from training data.
+- For part a use **MSE error** as the loss function and fix the `activation function` for the last layer to be `sigmoid`. 
 
 **Options**
 
-- **part**: Part as per question i.e. a/b/c.  
-- **tr**: File containing training data in csv format where 1st entry is the target  
-- **ts**: File containing test data in csv format where 1st entry is the target  
-- **out**: Output file for predictions. One value in each line.
-- **other_options**: Only for part a
+- **part**:  
+    Part as per question i.e. a/b/c.  
+- **tr**:   
+    File containing training data in csv format where 1st entry is the target  
+- **ts**:   
+    File containing test data in csv format where 1st entry is the target  
+- **out**:  
+    Output file for predictions. One value in each line.
+- **other_options**: **Only for part a**
     + batch_size
     + η<sub>0</sub> (Initial Learning rate)
-    + activation_function: `relu, tanh, sigmoid`
+    + activation_function_for_the_hidden_layers: `relu`, `tanh`, `sigmoid` (output layer should always have `sigmoid` as the activation function)
     + space seperated list of hidden layer sizes
     
 **Example**
 
 1. Suppose 
     - batch_size: 100
-    - activation_function: relu
+    - η<sub>0</sub>: 0.1
+    - activation_function: sigmoid
     - three hidden layers containing 50, 10 and 5 perceptrons each  
-        `./neural a train.csv test.csv output 100 relu 50 10 5`  
+        `./neural a train.csv test.csv output 100 0.1 sigmoid 50 10 5`  
 2. `./neural b train.csv test.csv output`
 3. `./neural c train.csv test.csv output`  
 
 
-    
 **Data**
 
 - devnagri_train.csv: Train data  
