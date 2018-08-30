@@ -73,22 +73,30 @@ def predict(net, test_x):
 
 
 def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, num_epochs):
+    """ Use Mean Squared Error as Loss """
     criterion = nn.MSELoss()
+
+    """ USE SGD as the optimizer """
     optimizer = torch.optim.SGD(net.parameters(), lr=lr0)
 
+    """ Scheduler to dynamically change the learning rate of SGD optimizer """
     def hc_lambda(epoch):
         return 1.0 / ((1 + epoch)**(0.5))
-        # return 1.0
 
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, hc_lambda)
 
+    """ converting training data to torch tensors """
     train_x = torch.from_numpy(train_x).type(torch.FloatTensor)
     train_y = torch.from_numpy(train_y).type(torch.FloatTensor)
 
+    """ Creating Dataset Loader """
     dataset = Data.TensorDataset(train_x, train_y)
     train_loader = Data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True)
+
+    """ Training """
     for epoch in range(num_epochs):
-        net.train()
+
+        net.train()  # Set model mode to train
         gold, pred, losses = [], [], []
 
         for i, (x, y) in enumerate(train_loader):
@@ -112,7 +120,7 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
 
         test_pred = predict(net, test_x)
         print(" Epoch: %d Train Accuracy: %f Loss: %f Test Accuracy %f" % (epoch, accuracy_score(gold, pred), np.mean(losses), accuracy_score(test_y, test_pred)))
-        scheduler.step()
+        scheduler.step()  # reduce learning rate
 
     test_pred = predict(net, test_x)
     return test_pred
