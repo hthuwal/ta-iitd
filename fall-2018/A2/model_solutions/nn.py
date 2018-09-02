@@ -95,6 +95,8 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
     train_loader = Data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True)
 
     """ Training """
+    prev_epoch_loss = 0
+    
     for epoch in range(num_epochs):
 
         net.train()  # Set model mode to train
@@ -121,7 +123,13 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
 
         test_pred = predict(net, test_x)
         print(" Epoch: %d Train Accuracy: %f Loss: %f Test Accuracy %f" % (epoch, accuracy_score(gold, pred), np.mean(losses), accuracy_score(test_y, test_pred)))
-        scheduler.step()  # reduce learning rate
+        epoch_loss = np.mean(losses)
+        # print(" ", epoch_loss, prev_epoch_loss)
+        if epoch_loss > prev_epoch_loss:
+            scheduler.step()  # reduce learning rate
+            for param_group in optimizer.param_groups:
+                print("hc is fucked", param_group['lr'])
+        prev_epoch_loss = epoch_loss
 
     test_pred = predict(net, test_x)
     return test_pred
@@ -152,7 +160,7 @@ if __name__ == '__main__':
         net = net.cuda()
 
     """ Training and predicting outputs"""
-    test_pred = train_and_predict(net, train_x, train_y, test_x, test_y, learning_rate, batch_size, 100)
+    test_pred = train_and_predict(net, train_x, train_y, test_x, test_y, learning_rate, batch_size, 500)
 
     """ Writing Predictions to output file"""
     with open("pred.txt", "w") as f:
