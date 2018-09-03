@@ -5,7 +5,7 @@ import torch
 import torch.utils.data as Data
 import torch.nn as nn
 from torch.autograd import Variable
-from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import LabelBinarizer, scale
 from sklearn.metrics import accuracy_score
 # import
 use_cuda = torch.cuda.is_available()
@@ -17,6 +17,7 @@ def read_data(file):
     x = x.values
     y = x[:, 0]
     x = np.delete(x, 0, axis=1)
+    x = scale(x)
     return x, y
 
 
@@ -96,7 +97,7 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
 
     """ Training """
     prev_epoch_loss = 0
-    
+
     for epoch in range(num_epochs):
 
         net.train()  # Set model mode to train
@@ -127,10 +128,10 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
         # print(" ", epoch_loss, prev_epoch_loss)
         if epoch_loss > prev_epoch_loss:
             scheduler.step()  # reduce learning rate
-            for param_group in optimizer.param_groups:
-                print("hc is fucked", param_group['lr'])
+        
         prev_epoch_loss = epoch_loss
-
+        for param_group in optimizer.param_groups:
+            print("hc is fucked", param_group['lr'])
     test_pred = predict(net, test_x)
     return test_pred
 

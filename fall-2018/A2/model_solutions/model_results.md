@@ -15,7 +15,7 @@
 ---
 
 **Adaptive Learning Rate**
-Decrease Learning rate only if the loss doesn't decrease
+Decrease Learning rate only if the average loss per epoch doesn't decrease
 
 [1000] | 100 | 100 | sigmoid | 0.1 | 81.5
 [1000] | 100 | 300 | sigmoid | 0.01 | 81.5
