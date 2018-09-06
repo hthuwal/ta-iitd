@@ -10,4 +10,6 @@ with open(sys.argv[2], "r") as f:
     pred = [int(float(each.strip())) for each in pred]
 
 with open(sys.argv[3], 'w') as fp:
-    fp.write(str(accuracy_score(gold, pred)))
+    acc = str(accuracy_score(gold, pred))
+    print("Accuracy: %s" % acc)
+    fp.write(acc)
