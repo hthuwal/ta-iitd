@@ -64,18 +64,18 @@ main()
     if [ $status == "OK" ]; then
         part="a"
         echo -e "\nEvaluating Part $part"
-        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part" 512 0.01 "sigmoid" 100
-        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_nerual_$part" 512 0.01 "sigmoid" 100
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_nerual_$part" "$stud_folder_path/result_neural_$part" 
 
         part="b"
         echo -e "\nEvaluating Part $part"
-        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part"
-        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_nerual_$part"
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_nerual_$part" "$stud_folder_path/result_neural_$part" 
         
         part="c"
         echo -e "\nEvaluating Part $part"
-        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part"
-        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_nerual_$part"
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_nerual_$part" "$stud_folder_path/result_neural_$part" 
 
     fi
     cd $main_dir
