@@ -189,7 +189,7 @@ if part == 'a':
     activation = sys.argv[7]
     hidden_layers = list(map(int, sys.argv[8:]))
 else:
-    batch_size = 512
+    batch_size = 100
     lr = 0.1
     activation = 'relu'
     hidden_layers = []
@@ -202,7 +202,7 @@ train_y = lb.transform(train_y)
 test_x, test_y = read_data(test)
 
 model = Neural_Network(1024, hidden_layers, activation)
-model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=100, threshold=1e-10, decay=True)
+model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=300, threshold=1e-10, decay=True)
 pred = model.predict(test_x)
 
 with open(out, "w") as f:
