@@ -1,0 +1,2 @@
+# python from_scratch.py $@
+python nn.py $@

@@ -128,7 +128,7 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
         # print(" ", epoch_loss, prev_epoch_loss)
         if epoch_loss > prev_epoch_loss:
             scheduler.step()  # reduce learning rate
-        
+
         prev_epoch_loss = epoch_loss
         for param_group in optimizer.param_groups:
             print("hc is fucked", param_group['lr'])
@@ -138,32 +138,31 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
 
 if __name__ == '__main__':
 
-    """ Reading Training and Test Data"""
-    train_x, train_y = read_data("col341_a2_data/devnagri_train.csv")
-    test_x, test_y = read_data("col341_a2_data/devnagri_test_public.csv")
+    part = sys.argv[1]
+    train = sys.argv[2]
+    test = sys.argv[3]
+    out = sys.argv[4]
+    if part == 'a':
+        batch_size = int(sys.argv[5])
+        lr = float(sys.argv[6])
+        activation = sys.argv[7]
+        hidden_layers = list(map(int, sys.argv[8:]))
+    else:
+        batch_size = 100
+        lr = 0.1
+        activation = 'relu'
+        hidden_layers = []
 
+    train_x, train_y = read_data(train)
+    train_x = scale(train_x)
     lb = LabelBinarizer()
     lb.fit([i for i in range(46)])
-    train_y = lb.transform(train_y)  # Converting train labels to 1 hot encoding
+    train_y = lb.transform(train_y)
+    test_x, test_y = read_data(test)
 
-    """ Model Parameters """
-    batch_size = int(sys.argv[1])
-    learning_rate = float(sys.argv[2])
-    activation = sys.argv[3]
-    inp_size = train_x.shape[1]
-    output_size = 46
-    hidden_layers = list(map(int, sys.argv[4:]))
+    net = Neural_Network(activation, 1024, hidden_layers, 46)
+    pred = train_and_predict(net, train_x, train_y, test_x, test_y, lr, batch_size, 200)
 
-    """ Creating Neural Net Model Object"""
-
-    net = Neural_Network(activation, inp_size, hidden_layers, output_size)
-    if use_cuda:
-        net = net.cuda()
-
-    """ Training and predicting outputs"""
-    test_pred = train_and_predict(net, train_x, train_y, test_x, test_y, learning_rate, batch_size, 500)
-
-    """ Writing Predictions to output file"""
-    with open("pred.txt", "w") as f:
-        for pred in test_pred:
-            f.write(str(pred) + "\n")
+    with open(out, "w") as f:
+        for each in pred:
+            f.write(str(each) + "\n")
