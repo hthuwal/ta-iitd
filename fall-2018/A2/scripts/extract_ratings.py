@@ -16,7 +16,7 @@ def dummify_test_data(file):
     labels_file = os.path.join(os.path.dirname(file), "labels.txt")
     csvr = csv.reader(open(file, "r"))
     csvw = csv.writer(open(dummy_file, "w"))
-    csvl = csv.writer(labels_file)
+    csvl = csv.writer(open(labels_file, "w"))
     for row in csvr:
         label = row[0]
         row[0] = -1
