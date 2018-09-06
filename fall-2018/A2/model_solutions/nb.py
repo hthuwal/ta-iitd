@@ -2,10 +2,9 @@ import csv
 import sys
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics import accuracy_score, f1_score
-from collections import Counter
-train = sys.argv[1]
-test = sys.argv[2]
+train = sys.argv[2]
+test = sys.argv[3]
+out = sys.argv[4]
 
 
 def read(file):
@@ -22,7 +21,6 @@ def read(file):
 
 train_X, train_y = read(train)
 test_X, test_y = read(test)
-print(len(train_X), len(test_X))
 
 vectorizer = CountVectorizer(input='content')
 train_X = vectorizer.fit_transform(train_X)
@@ -32,7 +30,6 @@ clf = MultinomialNB()
 clf.fit(train_X, train_y)
 prediction = clf.predict(test_X)
 
-print(Counter(train_y))
-print(Counter(test_y))
-print(accuracy_score(test_y, prediction))
-print(f1_score(test_y, prediction, average='macro'))
+with open(out, "w") as f:
+    for each in prediction:
+        f.write(str(each) + "\n")
