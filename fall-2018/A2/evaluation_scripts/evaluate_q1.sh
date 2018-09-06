@@ -38,7 +38,7 @@ main()
     
     stud_folder_path=$(realpath "$2/$3")
     data_folder_path=$(realpath "$1")
-
+    compute_accuracy=$(realpath "compute_accuracy.py")
     cd "$stud_folder_path"
 
     status="OK"
@@ -65,17 +65,17 @@ main()
         part="a"
         echo -e "\nEvaluating Part $part"
         time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part" 512 0.01 "sigmoid" 100
-        compute_score compute_accuracy "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
 
         part="b"
         echo -e "\nEvaluating Part $part"
         time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part"
-        compute_score compute_accuracy "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
         
         part="c"
         echo -e "\nEvaluating Part $part"
         time run "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_$fname_$part"
-        compute_score compute_accuracy "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
+        compute_score "$compute_accuracy" "$data_folder_path/devnagri_target_labels.txt" "$stud_folder_path/predictions_$fname_$part" "$stud_folder_path/result_$fname_$part" 
 
     fi
     cd $main_dir
