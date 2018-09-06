@@ -1,14 +1,13 @@
 import sys
-import numpy as np
+from sklearn.metrics import accuracy_score
 
+with open(sys.argv[1], "r") as f:
+    gold = f.readlines()
+    gold = [int(float(each.strip())) for each in gold]
 
-def compute_accuracy(true_labels, predicted_labels):
-    num_instances = true_labels.size
-    print(num_instances, np.sum(true_labels == predicted_labels))
-    return np.sum(true_labels == predicted_labels) * 100 / num_instances
+with open(sys.argv[2], "r") as f:
+    pred = f.readlines()
+    pred = [int(float(each.strip())) for each in pred]
 
-
-targets = np.genfromtxt(sys.argv[1], dtype=np.int)
-predicted = np.genfromtxt(sys.argv[2], dtype=np.int)
 with open(sys.argv[3], 'w') as fp:
-    fp.write(compute_accuracy(targets, predicted))
+    fp.write(str(accuracy_score(gold, pred)))
