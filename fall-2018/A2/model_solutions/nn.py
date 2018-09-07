@@ -104,7 +104,7 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
         gold, pred, losses = [], [], []
 
         for i, (x, y) in enumerate(train_loader):
-            print("\r%d" % (i), end="")
+            # print("\r%d" % (i), end="")
             x, y = Variable(x), Variable(y)
 
             if use_cuda:
@@ -123,15 +123,14 @@ def train_and_predict(net, train_x, train_y, test_x, test_y, lr0, batch_size, nu
             losses.extend([loss.data.cpu().numpy()])
 
         test_pred = predict(net, test_x)
-        print(" Epoch: %d Train Accuracy: %f Loss: %f Test Accuracy %f" % (epoch, accuracy_score(gold, pred), np.mean(losses), accuracy_score(test_y, test_pred)))
+        print("\rEpoch: %d Train Accuracy: %f Loss: %f Test Accuracy %f" % (epoch, accuracy_score(gold, pred), np.mean(losses), accuracy_score(test_y, test_pred)), end="")
         epoch_loss = np.mean(losses)
         # print(" ", epoch_loss, prev_epoch_loss)
         if epoch_loss > prev_epoch_loss:
             scheduler.step()  # reduce learning rate
 
         prev_epoch_loss = epoch_loss
-        for param_group in optimizer.param_groups:
-            print("hc is fucked", param_group['lr'])
+
     test_pred = predict(net, test_x)
     return test_pred
 
@@ -154,7 +153,8 @@ if __name__ == '__main__':
         hidden_layers = []
 
     train_x, train_y = read_data(train)
-    train_x = scale(train_x)
+    # train_x = scale(train_x)
+    train_x = train_x / 255
     lb = LabelBinarizer()
     lb.fit([i for i in range(46)])
     train_y = lb.transform(train_y)
