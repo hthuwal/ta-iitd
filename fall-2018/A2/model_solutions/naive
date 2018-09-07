@@ -1,1 +1,1 @@
-python naive $@
+python nb.py $@
