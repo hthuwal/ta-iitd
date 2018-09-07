@@ -7,12 +7,13 @@ from scipy.special import expit
 import sys
 import math
 
+
 class Layer(object):
     def __init__(self, num_units, activation, num_units_in_prev_layer):
         self.num_units = num_units
         self.activation = activation
         self.outputs = np.zeros(num_units)
-        self.thetas = np.random.randn(num_units, num_units_in_prev_layer)
+        self.thetas = np.random.randn(num_units, num_units_in_prev_layer) * 0.001
         self.inputs = None
         self.gradients = None
 
@@ -22,8 +23,6 @@ class Layer(object):
 
 class Neural_Network(object):
     def __init__(self, num_inputs, num_hidden_units_list, activation):
-        np.random.seed(64550)
-        random.seed(93128)
         if len(num_hidden_units_list) == 0:
             self.hidden_layer_sizes = num_hidden_units_list
             self.layers = [Layer(46, "sigmoid", num_inputs)]
@@ -122,7 +121,7 @@ class Neural_Network(object):
                     self.update_thetas(lr)
 
                 it += 1
-                
+
             self.forward_pass(dev_data)
             error = self.error(dev_labels)
             print("\rEpoch: %d, Error: %f old_error: %f" % (epochs, error, old_error), end=" ")
@@ -191,18 +190,19 @@ if part == 'a':
 else:
     batch_size = 100
     lr = 0.1
-    activation = 'relu'
-    hidden_layers = []
+    activation = 'sigmoid'
+    hidden_layers = [500]
 
 train_x, train_y = read_data(train)
-train_x = scale(train_x)
+train_x = train_x / 255
+# train_x = scale(train_x)
 lb = LabelBinarizer()
 lb.fit([i for i in range(46)])
 train_y = lb.transform(train_y)
 test_x, test_y = read_data(test)
 
 model = Neural_Network(1024, hidden_layers, activation)
-model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=300, threshold=1e-10, decay=True)
+model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=500, threshold=1e-10, decay=True)
 pred = model.predict(test_x)
 
 with open(out, "w") as f:
