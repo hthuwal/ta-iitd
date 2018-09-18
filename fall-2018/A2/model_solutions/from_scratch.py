@@ -2,7 +2,7 @@ import numpy as np
 import random
 import pandas as pd
 # from neural_network import Neural_Network
-from sklearn.preprocessing import LabelBinarizer, scale
+from sklearn.preprocessing import LabelBinarizer
 from scipy.special import expit
 import sys
 import math
@@ -88,11 +88,7 @@ class Neural_Network(object):
             layer.thetas = layer.thetas - eeta * (layer.gradients)
 
     def error(self, gold):
-        #         print("Yo I am error")
         out_layer = self.layers[-1]
-
-        # gold = np.matrix(gold)
-#         print(gold, out_layer.outputs)
         err = gold - out_layer.outputs
         err = np.sum(np.square(err)) / len(gold)
         return err
@@ -100,34 +96,33 @@ class Neural_Network(object):
     def train(self, data, labels, eeta=0.01, batch_size=100, max_iter=1000, threshold=1e-4, decay=False):
         # pdb.set_trace()
         zip_data = list(zip(data.tolist(), labels.tolist()))
-        it = 1
         random.shuffle(zip_data)
-        dev_data, dev_labels = zip(*zip_data[0: int(0.1 * len(zip_data))])
-        self.forward_pass(dev_data)
-        old_error = self.error(dev_labels)
+        old_error = None
         epochs = 1
         lr = eeta
         factor = 1
         while(epochs <= max_iter):
-            dev_data, dev_labels = zip(*zip_data[0: int(0.1 * len(zip_data))])
-            for i in range(int(0.1 * len(zip_data)), len(zip_data), batch_size):
+            error = 0
+            for i in range(0, len(zip_data), batch_size):
                 batch = zip_data[i: i + batch_size]
                 x, y = zip(*batch)
                 self.forward_pass(np.array(x))
+                error += self.error(np.array(y))
                 self.backward_pass(np.array(y))
                 if decay:
                     self.update_thetas(eeta / math.sqrt(factor))
                 else:
                     self.update_thetas(lr)
 
-                it += 1
+            error /= (len(zip_data) / batch_size)
+            if epochs == 1:
+                print("\rEpoch: %d, Error: %f" % (epochs, error), end=" ")
+            else:
+                print("\rEpoch: %d, Error: %f old_error: %f" % (epochs, error, old_error), end=" ")
 
-            self.forward_pass(dev_data)
-            error = self.error(dev_labels)
-            print("\rEpoch: %d, Error: %f old_error: %f" % (epochs, error, old_error), end=" ")
+                if error > old_error:
+                    factor += 1
 
-            if error > old_error:
-                factor += 1
             old_error = error
             epochs += 1
             # random.shuffle(zip_data)
@@ -189,9 +184,9 @@ if part == 'a':
     hidden_layers = list(map(int, sys.argv[8:]))
 else:
     batch_size = 100
-    lr = 0.1
+    lr = 0.01
     activation = 'sigmoid'
-    hidden_layers = [500]
+    hidden_layers = [100]
 
 train_x, train_y = read_data(train)
 train_x = train_x / 255
@@ -202,7 +197,7 @@ train_y = lb.transform(train_y)
 test_x, test_y = read_data(test)
 
 model = Neural_Network(1024, hidden_layers, activation)
-model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=500, threshold=1e-10, decay=True)
+model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=100, threshold=1e-10, decay=True)
 pred = model.predict(test_x)
 
 with open(out, "w") as f:
