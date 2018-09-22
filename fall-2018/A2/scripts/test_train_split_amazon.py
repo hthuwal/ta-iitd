@@ -28,6 +28,9 @@ if ext == '.csv':
             distribution[rating] = []
         distribution[rating].append(text)
 
+for rating in distribution:
+    random.shuffle(distribution[rating])
+
 test, train = [], []
 for rating in distribution:
     l = len(distribution[rating])
@@ -36,8 +39,8 @@ for rating in distribution:
     for i in range(l // 2, l):
         test.append([rating, distribution[rating][i]])
 
-random.shuffle(train)
-random.shuffle(test)
+# random.shuffle(train)
+# random.shuffle(test)
 
 with open(file_name + "_train.csv", "w") as out:
     csvw = csv.writer(out)
