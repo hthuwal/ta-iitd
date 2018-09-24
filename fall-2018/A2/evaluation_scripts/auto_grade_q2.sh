@@ -3,13 +3,18 @@ run()
 {
     timelimit="$1"
     shift
+    logs="$1"
+    shift
     chmod +x "$1"
-    time_start=$(date +%s)
     log "\n"
-    timeout -k "$timelimit" "$timelimit" "./$@" &>> "$log_file"
+    echo -e "\nEvaluating Part $2" >> "$logs"
+    
+    time_start=$(date +%s)
+    timeout -k "$timelimit" "$timelimit" "./$@" &>> "$logs"
+    time_end=$(date +%s)
+    
     log "\n"
     status=$?
-    time_end=$(date +%s)
     user_time=$(( time_end - time_start ))
 
     if [ "$status" -eq 124 ]; then
@@ -71,6 +76,13 @@ evaluate()
     write_score "$entry_number"
 
     stud_folder_path=$(realpath "$2/$3")
+    logs=$(realpath "$2")"/logs"
+
+    if ! [ -d "$logs" ]; then
+        mkdir -p "$logs"
+    fi
+    
+    logs="$logs/$entry_number"
     data_folder_path=$(realpath "$1")
     compute_accuracy=$(realpath "compute_accuracy_fscore.py")
     cd "$stud_folder_path"
@@ -101,18 +113,18 @@ evaluate()
     if [ $status == "OK" ]; then
         part="a"
         log "\nEvaluating Part $part"
-        run "$t1" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part"
-        compute_score "$compute_accuracy" "$data_folder_path/amazon_target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
+        run "$t1" "$logs" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part" 
+        compute_score "$compute_accuracy" "$data_folder_path/target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
 
         part="b"
         log "\nEvaluating Part $part"
-        run "$t2" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part"
-        compute_score "$compute_accuracy" "$data_folder_path/amazon_target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
+        run "$t2" "$logs" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part"
+        compute_score "$compute_accuracy" "$data_folder_path/target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
         
         part="c"
         log "\nEvaluating Part $part"
-        run "$t3" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part"
-        compute_score "$compute_accuracy" "$data_folder_path/amazon_target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
+        run "$t3" "$logs" "$fname" "$part" "$data_folder_path/amazon_train.csv" "$data_folder_path/amazon_test.csv" "$stud_folder_path/predictions_naive_$part"
+        compute_score "$compute_accuracy" "$data_folder_path/target_labels.txt" "$stud_folder_path/predictions_naive_$part" "$stud_folder_path/result_naive_$part" 
 
     else
         write_score ",$t1,NA,0.0,$t2,NA,0.0,$t3,NA,0.0"
@@ -160,6 +172,8 @@ main()
     done
 }
 
+touch "$1"
+touch "$2"
 
 log_file="$(realpath "$1")"
 rm "$log_file"
