@@ -11,16 +11,19 @@ run()
     
     time_start=$(date +%s)
     timeout -k "$timelimit" "$timelimit" "./$@" &>> "$logs"
+    status=$?
     time_end=$(date +%s)
     
     log "\n"
-    status=$?
     user_time=$(( time_end - time_start ))
 
     if [ "$status" -eq 124 ]; then
         log "Status: Timed out!"
+        echo "Status: Timed out" >> "$logs"
     else
         log "Status: OK, Time taken: $user_time"
+        echo "Status: OK, Time taken: $user_time" >> "$logs"
+        
     fi
 
     write_score ",$timelimit,$user_time"
