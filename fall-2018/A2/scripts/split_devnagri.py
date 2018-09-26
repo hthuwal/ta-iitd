@@ -19,15 +19,16 @@ if ext == '.csv':
         distribution[rating].append(image)
 
 test, train = [], []
+
+for rating in distribution:
+    random.shuffle(distribution[rating])
+
 for rating in distribution:
     l = len(distribution[rating])
-    for i in range(l // 2):
-        train.append([rating] + distribution[rating][i])
-    for i in range(l // 2, l):
+    for i in range(l // 6):
         test.append([rating] + distribution[rating][i])
-
-random.shuffle(train)
-random.shuffle(test)
+    for i in range(l // 6, l):
+        train.append([rating] + distribution[rating][i])
 
 with open(file_name + "_train.csv", "w") as out:
     csvw = csv.writer(out)
