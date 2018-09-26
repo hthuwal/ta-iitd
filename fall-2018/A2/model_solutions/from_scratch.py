@@ -1,7 +1,6 @@
 import numpy as np
 import random
 import pandas as pd
-# from neural_network import Neural_Network
 from sklearn.preprocessing import LabelBinarizer
 from scipy.special import expit
 import sys
@@ -71,6 +70,8 @@ class Neural_Network(object):
             return self.sigmoid(output)
         if activation == "relu":
             return self.relu(output)
+        if activation == 'tanh':
+            return np.tanh(output)
 
     def gnl(self, netj, activation):
         if activation == "sigmoid":
@@ -81,6 +82,9 @@ class Neural_Network(object):
             temp[temp < 0] = 0
             temp[temp >= 0] = 1
             return temp
+        if activation == 'tanh':
+            temp = np.tanh(netj)
+            return (1 - temp**2)
 
     def update_thetas(self, eeta, momentum=5):
         for layer in self.layers:
