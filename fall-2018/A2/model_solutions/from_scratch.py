@@ -70,7 +70,7 @@ class Neural_Network(object):
             return self.sigmoid(output)
         if activation == "relu":
             return self.relu(output)
-        if activation == 'tanh':
+        if activation == "tanh":
             return np.tanh(output)
 
     def gnl(self, netj, activation):
@@ -82,9 +82,9 @@ class Neural_Network(object):
             temp[temp < 0] = 0
             temp[temp >= 0] = 1
             return temp
-        if activation == 'tanh':
+        if activation == "tanh":
             temp = np.tanh(netj)
-            return (1 - temp**2)
+            return np.matrix(1 - np.square(temp))
 
     def update_thetas(self, eeta, momentum=5):
         for layer in self.layers:
@@ -120,9 +120,9 @@ class Neural_Network(object):
 
             error /= (len(zip_data) / batch_size)
             if epochs == 1:
-                print("\rEpoch: %d, Error: %f" % (epochs, error), end=" ")
+                print("Epoch: %d, Error: %f" % (epochs, error), end=" ")
             else:
-                print("\rEpoch: %d, Error: %f old_error: %f" % (epochs, error, old_error), end=" ")
+                print("Epoch: %d, Error: %f old_error: %f" % (epochs, error, old_error), end=" ")
 
                 if error > old_error:
                     factor += 1
@@ -201,6 +201,7 @@ train_y = lb.transform(train_y)
 test_x, test_y = read_data(test)
 
 model = Neural_Network(1024, hidden_layers, activation)
+print(model)
 model.train(train_x, train_y, eeta=lr, batch_size=batch_size, max_iter=100, threshold=1e-10, decay=True)
 pred = model.predict(test_x)
 
