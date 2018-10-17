@@ -86,6 +86,9 @@ evaluate()
     
     logs="$logs/$entry_number"
     score_file="$score/$entry_number"
+
+    rm "$logs" "$score_file"
+    
     data_folder_path=$(realpath "$1")
     compute_accuracy=$(realpath "compute_accuracy.py")
     cd "$stud_folder_path"
