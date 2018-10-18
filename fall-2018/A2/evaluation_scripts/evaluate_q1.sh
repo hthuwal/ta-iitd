@@ -122,7 +122,7 @@ evaluate()
         run "$t1" "$logs" "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_neural_${part}_2" 32 0.05 "relu" 128
         compute_score "$compute_accuracy" "$data_folder_path/target_labels.txt" "$stud_folder_path/predictions_neural_${part}_2" "$stud_folder_path/result_neural_${part}_2" 
         
-        run "$t1" "$logs" "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_neural_${part}_3" 32 0.5 "tanh" 256 64
+        run "$t1" "$logs" "$fname" "$part" "$data_folder_path/devnagri_train.csv" "$data_folder_path/devnagri_test.csv" "$stud_folder_path/predictions_neural_${part}_3" 32 0.05 "tanh" 128 64
         compute_score "$compute_accuracy" "$data_folder_path/target_labels.txt" "$stud_folder_path/predictions_neural_${part}_3" "$stud_folder_path/result_neural_${part}_3" 
 
         part="b"
