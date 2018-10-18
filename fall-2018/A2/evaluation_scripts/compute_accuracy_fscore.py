@@ -10,7 +10,7 @@ with open(sys.argv[2], "r") as f:
     pred = [int(float(each.strip())) for each in pred]
 
 if(len(gold) != len(pred)):
-    msg = 'Number of labels are more than required' if pred.size > gold.size else 'Number of labels are less than required'
+    msg = 'Number of labels are more than required' if len(pred) > len(gold) else 'Number of labels are less than required'
     print(msg, end=" ")
     fscore = 0
 else:
