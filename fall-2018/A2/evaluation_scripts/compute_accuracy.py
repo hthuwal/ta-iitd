@@ -18,6 +18,6 @@ else:
     print(acc, end="")
 
 with open(sys.argv[3], 'w') as fp:
-    fp.write(acc)
+    fp.write(str(acc))
 
 

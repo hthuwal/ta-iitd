@@ -18,4 +18,4 @@ else:
     print(fscore, end="")
 
 with open(sys.argv[3], 'w') as fp:
-    fp.write(fscore)
+    fp.write(str(fscore))
