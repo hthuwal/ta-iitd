@@ -281,3 +281,5 @@ setup.log
 *pip-selfcheck.json
 # End of https://www.gitignore.io/api/ocaml
 *vpl_execution
+
+*env*
