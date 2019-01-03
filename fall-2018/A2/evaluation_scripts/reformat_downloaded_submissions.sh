@@ -26,4 +26,9 @@ main()
         cd "$main_dir"
     done
 }
-main "$@"
+
+if [ $# -ne 2 ]; then
+    echo "Two arguments expected. Source and Destinatino";
+else
+    main "$@"
+fi
