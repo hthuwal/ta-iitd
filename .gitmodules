@@ -1,3 +1,6 @@
 [submodule "spring-2019"]
 	path = spring-2019
 	url = https://github.com/dufferzafar/col-362-ta
+[submodule "fall-2018/ml-ta"]
+	path = fall-2018/ml-ta
+	url = https://github.com/kunaldahiya/ml-ta
